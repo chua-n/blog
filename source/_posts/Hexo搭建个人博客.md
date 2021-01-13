@@ -84,8 +84,8 @@ blog/
 ├── package-lock.json
 ├── package.json # 博客使用的包的信息：如hexo的版本、npm扩展的版本
 ├── scaffolds # 模板文件夹：新建相应文稿时会套用这里存储的模板
-│   ├── draft.md # 草稿模板
-│   ├── page.md # 分布模板（？尚未用过）
+│   ├── draft.md # 草稿模板：文章草稿，不会发表在博客中
+│   ├── page.md # 页面模板：创建新页面时使用，如tags/categoreis/about
 │   └── post.md # 正式文章模板：会展示在博客中
 ├── source # 资源文件夹：存储你的博客文章、图片等
 │   └── _posts # 存放博客文章的地方
