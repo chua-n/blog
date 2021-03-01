@@ -1,14 +1,16 @@
 ---
-title: 一些linux命令
+title: 常用linux命令杂记
 date: 2021-01-15 09:38:25
 categories: linux
 ---
 
-当在本地的命令行中使用 SSH 连接到远程服务器进行工作时，如果 SSH 连接突然停止，会导致远程服务器中运行的相关命令停止执行（因为 SSH 创建的进程被关闭），这意味着如果你正在服务器中进行一个长时间执行的操作，比方说训练一个神经网络，当网络意外中断、或你关闭了本地的命令行窗口，将导致该操作的运行终止，而不是继续在服务器中执行。那么如何让“连接中断时，正在执行的指令仍旧保持运行”呢，这就可以用到 tmux 命令了。
+`tmux`命令、更改 apt 源
 
 <!-- more -->
 
 ## 1. tmux
+
+当在本地的命令行中使用 SSH 连接到远程服务器进行工作时，如果 SSH 连接突然停止，会导致远程服务器中运行的相关命令停止执行（因为 SSH 创建的进程被关闭），这意味着如果你正在服务器中进行一个长时间执行的操作，比方说训练一个神经网络，当网络意外中断、或你关闭了本地的命令行窗口，将导致该操作的运行终止，而不是继续在服务器中执行。那么如何让“连接中断时，正在执行的指令仍旧保持运行”呢，这就可以用到 tmux 命令了。
 
 ### 1.1. tmux 简介
 
@@ -91,3 +93,65 @@ tmux 中有三个重要的概念需要辨析：session、window、pane，其手�
 |       }       |         向后置换当前面板          |
 |   `Ctrl+o`    |     顺时针旋转当前窗口的面板      |
 |    `Alt+o`    |     逆时针旋转当前窗口的面板      |
+
+## 2. 更改 Ubuntu 的 apt 源为阿里源
+
+Ubuntu 下的包管理工具 apt 默认的软件源为国外服务器，在国内使用时经常会速度非常慢，因此可将其更换为清华源、阿里源等，只需要更改配置文件/etc/apt/sources.list 即可。
+
+### 2.1. 备份原配置文件
+
+```bash
+cd /etc/apt/
+sudo cp sources.list sources.list.backup
+```
+
+### 2.2. 改写 source.list 配置文件
+
+将/etc/apt/sources.list 文件的原内容全部加`#`号注释或直接删除，然后添加以下内容：
+
+```shell
+deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+```
+
+现在已经改写了配置文件，再执行以下命令即可完成 apt 的软件源的更新：
+
+```bash
+sudo apt update
+```
+
+> 附：由于更新了软件源，因此一些软件被系统检测到的最新版本号可能发生变化，故而不妨再使用`sudo apt upgrade`更新一下这些软件。
+
+### 2.3. sources.list 配置内容说明
+
+sources.list 文件的每个配置条目都是有格式的：
+
+```bash
+deb http://site.example.com/debian distribution component1 component2 component3
+deb-src http://site.example.com/debian distribution component1 component2 component3
+```
+
+其中每一行最后面的*componentN*参数表示对软件包的分类，ubuntu 下就是 main、restricted、universe、multiverse；*distribution*参数代表系统版本代号，可使用`lsb_release -c`命令查看，比如：
+
+|     版本     |  代号  |
+| :----------: | :----: |
+| Ubuntu 15.04 | vivid  |
+| Ubuntu 16.04 | xenial |
+| Ubuntu 17.04 | zesty  |
+| Ubuntu 18.04 | bionic |
+| Ubuntu 19.04 | disco  |
+| Ubuntu 20.04 | focal  |
+
+## 3. to be continued
