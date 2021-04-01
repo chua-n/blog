@@ -154,4 +154,29 @@ deb-src http://site.example.com/debian distribution component1 component2 compon
 | Ubuntu 19.04 | disco  |
 | Ubuntu 20.04 | focal  |
 
-## 3. to be continued
+## 3. cloc：统计代码行数
+
+当想要统计某文件夹下代码的行数时，可以使用`cloc`命令。如：
+
+```shell
+$ cloc particle/
+
+     123 text files.
+     110 unique files.
+      23 files ignored.
+
+github.com/AlDanial/cloc v 1.82  T=0.22 s (494.5 files/s, 188728.2 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Python                          94           4487          15174          19605
+XML                              8            101            153           1023
+XSD                              1             23             15            161
+Bourne Shell                     1              2             36             26
+Markdown                         3             12              0             22
+-------------------------------------------------------------------------------
+SUM:                           107           4625          15378          20837
+-------------------------------------------------------------------------------
+```
+
+## 4. to be continued
