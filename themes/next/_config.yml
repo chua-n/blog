@@ -210,7 +210,7 @@ toc:
   # If true, all words will placed on next lines if header width longer then sidebar width.
   wrap: false
   # If true, all level of TOC in a post will be displayed, rather than the activated part of it.
-  expand_all: true
+  expand_all: false
   # Maximum heading depth of generated toc.
   max_depth: 6
 
@@ -604,7 +604,7 @@ valine:
   enable: false
   appid: i3NPUcMirVSON5LNth0JTuce-gzGzoHsz # Your leancloud application appid
   appkey: 36KwJ9MheR9WnoYD03XyNvBE # Your leancloud application appkey
-  notify: false # Mail notifier
+  notify: true # Mail notifier
   verify: false # Verification code
   placeholder: Just go go # Comment box placeholder
   avatar: monsterid # Gravatar style

@@ -4,7 +4,7 @@ date: 2021-01-15 09:38:25
 categories: linux
 ---
 
-`tmux`命令、更改 apt 源
+`tmux`命令、更改 apt 源、`cloc`命令
 
 <!-- more -->
 
