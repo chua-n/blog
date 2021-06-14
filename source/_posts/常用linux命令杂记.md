@@ -4,7 +4,7 @@ date: 2021-01-15 09:38:25
 categories: linux
 ---
 
-`tmux`命令、更改 apt 源、`cloc`命令
+`tmux`命令、更改 apt 源、`cloc`命令、更新 Git 到最新版
 
 <!-- more -->
 
@@ -179,4 +179,18 @@ SUM:                           107           4625          15378          20837
 -------------------------------------------------------------------------------
 ```
 
-## 4. to be continued
+## 4. 更新 Git 到最新版本
+
+Ubuntu 的默认软件源（以及阿里源）不能把 Git 更新到官方最新版，导致一些特性不能使用（比如我想把主分支的命名从 master 改为 main）。要想对 Git 进行更新，如下添加 Git 官方的软件源然后更新即可：
+
+```bash
+# 添加Git官方软件源
+sudo add-apt-repository ppa:git-core/ppa
+# 更新
+sudo apt update
+sudo apt upgrade
+# 查看当前Git版本
+git --version
+```
+
+## 5. to be continued
