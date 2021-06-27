@@ -8,6 +8,8 @@ categories: Java
 
 <!-- more -->
 
+> 需要额外提一句的是，这里没有使用数据库连接池技术，有点遗憾但饭还得一口一口吃。
+
 ## 1. 项目概览
 
 先来看看项目结构，主要关注 Java 代码目录 com/chuan/servlet/\*，及相关的配置文件目录。
@@ -22,12 +24,12 @@ categories: Java
 │   │   │   └── com
 │   │   │       └── chuan
 │   │   │           └── servlet
-│   │   │               ├── dao
-│   │   │               │   └── UserDao.java
 │   │   │               ├── entity
 │   │   │               │   └── User.java
 │   │   │               ├── mapper
 │   │   │               │   └── UserMapper.java
+│   │   │               ├── service
+│   │   │               │   └── UserService.java
 │   │   │               └── web
 │   │   │                   ├── ServletTestDemo1.java
 │   │   │                   └── servlet
@@ -52,21 +54,21 @@ categories: Java
 │       │   └── com
 │       │       └── chuan
 │       │           └── servlet
-│       │               └── dao
-│       │                   └── UserDaoTest.java
+│       │               └── service
+│       │                   └── UserServiceTest.java
 │       └── resources
 └── target
     ├── classes
     │   ├── com
     │   │   └── chuan
     │   │       └── servlet
-    │   │           ├── dao
-    │   │           │   └── UserDao.class
     │   │           ├── entity
     │   │           │   └── User.class
     │   │           ├── mapper
     │   │           │   ├── UserMapper.class
     │   │           │   └── UserMapper.xml
+    │   │           ├── service
+    │   │           │   └── UserService.class
     │   │           └── web
     │   │               ├── ServletTestDemo1.class
     │   │               └── servlet
@@ -88,12 +90,13 @@ categories: Java
     │   │   │   │   └── chuan
     │   │   │   │       └── servlet
     │   │   │   │           ├── dao
-    │   │   │   │           │   └── UserDao.class
     │   │   │   │           ├── entity
     │   │   │   │           │   └── User.class
     │   │   │   │           ├── mapper
     │   │   │   │           │   ├── UserMapper.class
     │   │   │   │           │   └── UserMapper.xml
+    │   │   │   │           ├── service
+    │   │   │   │           │   └── UserService.class
     │   │   │   │           └── web
     │   │   │   │               ├── ServletTestDemo1.class
     │   │   │   │               └── servlet
@@ -116,10 +119,10 @@ categories: Java
         └── com
             └── chuan
                 └── servlet
-                    └── dao
-                        └── UserDaoTest.class
+                    └── service
+                        └── UserServiceTest.class
 
-57 directories, 47 files
+58 directories, 47 files
 ```
 
 这里是项目的`pom.xml`：
@@ -220,41 +223,7 @@ public class User {
 }
 ```
 
-## 3. `UserDao.java`
-
-```java
-package com.chuan.servlet.dao;
-
-import com.chuan.servlet.entity.User;
-import com.chuan.servlet.mapper.UserMapper;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-public class UserDao {
-    public User login(User loginUser) {
-        try {
-            InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-            SqlSession sqlSession = sqlSessionFactory.openSession();
-            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            User user = userMapper.getUser(loginUser.getUsername(), loginUser.getPassword());
-            sqlSession.commit();
-            sqlSession.close();
-            return user;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
-```
-
-## 4. `UserMapper.java` & `UserMapper.xml`
+## 3. `UserMapper.java` & `UserMapper.xml`
 
 -   这里是`UserMapper.java`：
 
@@ -324,6 +293,40 @@ public interface UserMapper {
 </mapper>
 ```
 
+## 4. `UserService.java`
+
+```java
+package com.chuan.servlet.service;
+
+import com.chuan.servlet.entity.User;
+import com.chuan.servlet.mapper.UserMapper;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class UserService {
+    public User login(User loginUser) {
+        try {
+            InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            User user = userMapper.getUser(loginUser.getUsername(), loginUser.getPassword());
+            sqlSession.commit();
+            sqlSession.close();
+            return user;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+```
+
 ## 5. `LoginServlet.java` & `LoginXxxServlet.java`
 
 -   这里是`LoginServlet.java`：
@@ -331,7 +334,7 @@ public interface UserMapper {
 ```java
 package com.chuan.servlet.web.servlet;
 
-import com.chuan.servlet.dao.UserDao;
+import com.chuan.servlet.service.UserService;
 import com.chuan.servlet.entity.User;
 
 import javax.servlet.ServletException;
@@ -354,9 +357,9 @@ public class LoginServlet extends HttpServlet {
         User loginUser = new User();
         loginUser.setUsername(username);
         loginUser.setPassword(password);
-        // 4. 调用UserDao的login方法
-        UserDao userDao = new UserDao();
-        User user = userDao.login(loginUser);
+        // 4. 调用UserService的login方法
+        UserService userService = new UserService();
+        User user = userService.login(loginUser);
         // 5. 判断User
         if (user == null){
             // 登录失败
@@ -436,7 +439,7 @@ public class LoginFailServlet extends HttpServlet {
 }
 ```
 
-## 6. 配置文件`sqlMapConfig.xml`&`jdbc.properties`
+## 6. `sqlMapConfig.xml`&`jdbc.properties`配置文件
 
 -   这里是`sqlMapConfig.xml`：
 
@@ -475,7 +478,7 @@ jdbc.username=root
 jdbc.password=**网络加密**
 ```
 
-## 7. 前端展示`login.html`
+## 7. `login.html`前端展示
 
 ```html
 <!DOCTYPE html>
@@ -582,24 +585,24 @@ public class ServletTestDemo1 implements Servlet {
 </html>
 ```
 
--   这里是`UserDaoTest`：
+-   这里是`UserServiceTest`：
 
 ```java
-package com.chuan.servlet.dao;
+package com.chuan.servlet.service;
 
 import com.chuan.servlet.entity.User;
 import org.junit.jupiter.api.Test;
 
 
-class UserDaoTest {
+class UserServiceTest {
     @Test
     public void testLogin() {
         User loginUser = new User();
         // loginUser.setId(1);
         loginUser.setUsername("zhangsan");
         loginUser.setPassword("haha");
-        UserDao userDao = new UserDao();
-        User user = userDao.login(loginUser);
+        UserService userService = new UserService();
+        User user = userService.login(loginUser);
         System.out.println(user);
     }
 }
