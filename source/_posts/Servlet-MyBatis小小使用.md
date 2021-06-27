@@ -89,7 +89,6 @@ categories: Java
     │   │   │   ├── com
     │   │   │   │   └── chuan
     │   │   │   │       └── servlet
-    │   │   │   │           ├── dao
     │   │   │   │           ├── entity
     │   │   │   │           │   └── User.class
     │   │   │   │           ├── mapper
@@ -122,7 +121,7 @@ categories: Java
                     └── service
                         └── UserServiceTest.class
 
-58 directories, 47 files
+57 directories, 47 files
 ```
 
 这里是项目的`pom.xml`：
