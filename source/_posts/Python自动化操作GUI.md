@@ -264,6 +264,8 @@ def getMousePositon():
 
 def task(times=1):
     folder = "./steps"
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
     filenames = os.listdir(folder)
     filenames.sort()
     maxNum = int(filenames[-1][:-4]) if len(filenames) > 0 else 0
