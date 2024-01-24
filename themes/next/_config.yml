@@ -118,7 +118,7 @@ menu:
   tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
-  notebooks: https://chua-n.github.io/notebooks || fa fa-book
+  notebook: http://chua-n.com || fa fa-book
   #schedule: /schedule/ || fa fa-calendar
   #sitemap: /sitemap.xml || fa fa-sitemap
   #commonweal: /404/ || fa fa-heartbeat
@@ -185,7 +185,7 @@ social:
   #Instagram: https://instagram.com/yourname || fab fa-instagram
   #Skype: skype:yourname?call|chat || fab fa-skype
   # Bilibili: https://space.bilibili.com/33035816 || fab fa-youtube
-  Notebooks: https://chua-n.github.io/notebooks || fa fa-book
+  Notebooks: http://chua-n.com || fa fa-book
   RSS: /atom.xml || fa fa-rss
 
 social_icons:

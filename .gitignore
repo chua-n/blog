@@ -1,7 +1,15 @@
+.idea
+.vscode
 .DS_Store
 Thumbs.db
 db.json
 *.log
+
+# npm/yarn/webpack
 node_modules/
+package-lock.json
+yarn.lock
+
+# hexo
 public/
 .deploy*/
