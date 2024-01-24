@@ -6,7 +6,7 @@
   <link href="http://chua-n.com/atom.xml" rel="self"/>
   
   <link href="http://chua-n.com/"/>
-  <updated>2024-01-24T13:36:56.675Z</updated>
+  <updated>2024-01-24T14:40:40.200Z</updated>
   <id>http://chua-n.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://chua-n.com/2022/03/20/%E8%A7%82%E6%BC%94%E8%AE%B2%EF%BC%9A%E3%80%8A%E7%8E%8B%E5%BE%B7%E5%B3%B0-%E4%B8%AD%E8%A5%BF%E6%96%B9%E6%96%87%E5%8C%96%E5%B7%AE%E5%BC%82%E7%9A%84%E6%B8%8A%E6%BA%90%E3%80%8B/"/>
     <id>http://chua-n.com/2022/03/20/%E8%A7%82%E6%BC%94%E8%AE%B2%EF%BC%9A%E3%80%8A%E7%8E%8B%E5%BE%B7%E5%B3%B0-%E4%B8%AD%E8%A5%BF%E6%96%B9%E6%96%87%E5%8C%96%E5%B7%AE%E5%BC%82%E7%9A%84%E6%B8%8A%E6%BA%90%E3%80%8B/</id>
     <published>2022-03-20T07:58:39.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;img src=&quot;https://chua-n.gitee.io/figure-bed/blog/王德峰/7090828b8b3e48e5c907d5d084a1c8a6020e81f6.jpg&quot; style=&quot;zoom:75%;&quot; /&gt;&lt;/p&gt;
@@ -41,7 +41,7 @@
     <link href="http://chua-n.com/2022/01/28/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9CGUI/"/>
     <id>http://chua-n.com/2022/01/28/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9CGUI/</id>
     <published>2022-01-28T03:55:09.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.196Z</updated>
     
     
     <summary type="html">&lt;p&gt;Python 实现对 windows 鼠标和键盘的接管，自动化 GUI 操作。&lt;/p&gt;</summary>
@@ -56,7 +56,7 @@
     <link href="http://chua-n.com/2021/06/27/Servlet-MyBatis%E5%B0%8F%E5%B0%8F%E4%BD%BF%E7%94%A8/"/>
     <id>http://chua-n.com/2021/06/27/Servlet-MyBatis%E5%B0%8F%E5%B0%8F%E4%BD%BF%E7%94%A8/</id>
     <published>2021-06-27T01:50:34.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;在学 Servlet 的时候，视频老师用的是 JDBC/Spring JDBCTemplate 作为 DAO 层技术的，但现在主流技术都是 MyBatis 嘛，自己又是个新手，MyBatis 刚学了也没怎么实践过，就想着自己胡戳着把 DAO 层改成 MyBatis 来实现，同时增强 Servlet 和 MyBatis 的基础使用知识。&lt;/p&gt;</summary>
@@ -73,7 +73,7 @@
     <link href="http://chua-n.com/2021/06/27/Java%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81%E5%9B%BE%E7%89%87/"/>
     <id>http://chua-n.com/2021/06/27/Java%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81%E5%9B%BE%E7%89%87/</id>
     <published>2021-06-27T01:17:32.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.196Z</updated>
     
     
     <summary type="html">&lt;blockquote&gt;
@@ -94,7 +94,7 @@
     <link href="http://chua-n.com/2021/06/17/%E4%BD%99%E6%95%B0%E2%80%94%E2%80%94%E5%91%A8%E6%9C%9F%E6%80%A7%E5%92%8C%E5%88%86%E7%BB%84/"/>
     <id>http://chua-n.com/2021/06/17/%E4%BD%99%E6%95%B0%E2%80%94%E2%80%94%E5%91%A8%E6%9C%9F%E6%80%A7%E5%92%8C%E5%88%86%E7%BB%84/</id>
     <published>2021-06-17T01:16:36.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;余数，作除法运算时剩下的数。尽管从小学起我们就反复练习加、减、乘、除的计算，但有关余数的计算只在学习除法时略见其影，事实上，无论在数学还是编程中，余数都起着非常重要的作用。因为我们将意识到，“余数就是分组”，而且它的神奇性在于，将较大的数字除一次就能分组。&lt;/p&gt;</summary>
@@ -115,7 +115,7 @@
     <link href="http://chua-n.com/2021/03/19/Python%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E8%87%B3%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E8%A1%8C/"/>
     <id>http://chua-n.com/2021/03/19/Python%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E8%87%B3%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E8%A1%8C/</id>
     <published>2021-03-19T01:21:33.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.196Z</updated>
     
     
     <summary type="html">&lt;p&gt;编程语言在读取文本文件时总是自首行读取，因此文本开头的内容读取速度很快，那么如果文本量较大，如何快速读取文本仅最后一行呢？&lt;/p&gt;
@@ -135,7 +135,7 @@
     <link href="http://chua-n.com/2021/03/12/Python%E5%A4%9A%E8%BF%9B%E7%A8%8B/"/>
     <id>http://chua-n.com/2021/03/12/Python%E5%A4%9A%E8%BF%9B%E7%A8%8B/</id>
     <published>2021-03-12T01:39:04.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.196Z</updated>
     
     
     <summary type="html">&lt;p&gt;接连面临多个耗时性程序，形势已经演变到必须了解 Python 并行计算的地步了。&lt;/p&gt;</summary>
@@ -152,7 +152,7 @@
     <link href="http://chua-n.com/2021/02/07/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
     <id>http://chua-n.com/2021/02/07/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</id>
     <published>2021-02-07T08:15:29.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;最近学到 Spring 的 AOP，发现以前没搞懂的“JDK 动态代理”终于过来找茬了，所以还是细细地疏理一下吧。&lt;/p&gt;</summary>
@@ -169,7 +169,7 @@
     <link href="http://chua-n.com/2021/02/03/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E3%80%8A%E5%8E%86%E5%8F%B2%E5%AD%A6%E6%98%AF%E4%BB%80%E4%B9%88%E3%80%8B/"/>
     <id>http://chua-n.com/2021/02/03/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E3%80%8A%E5%8E%86%E5%8F%B2%E5%AD%A6%E6%98%AF%E4%BB%80%E4%B9%88%E3%80%8B/</id>
     <published>2021-02-03T03:10:22.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;葛剑雄，周筱赟著：《历史学是什么》，北京大学出版社，2015 年 9 月第 1 版。&lt;/p&gt;</summary>
@@ -188,7 +188,7 @@
     <link href="http://chua-n.com/2021/02/01/%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%BD%BF%E7%94%A8mayavi%E6%B8%B2%E6%9F%93%E4%B8%89%E7%BB%B4%E5%9B%BE%E2%80%94%E2%80%94%E5%80%9F%E5%8A%A9jupyter-notebook/"/>
     <id>http://chua-n.com/2021/02/01/%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%BD%BF%E7%94%A8mayavi%E6%B8%B2%E6%9F%93%E4%B8%89%E7%BB%B4%E5%9B%BE%E2%80%94%E2%80%94%E5%80%9F%E5%8A%A9jupyter-notebook/</id>
     <published>2021-02-01T11:26:56.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;mayavi 库基于 opengl 绘制三维图，似乎凡是通过 opengl 调用 GPU 进行图像渲染的相关功能在远程连接中都无法使用，SSH 与 linux 的连接如是，win10 的远程桌面连接亦如是，曾经在 2020 年寒假使用服务器工作时深受其害，至 2021 年寒假竟然碰巧发现一些窍门可以正常使用 mayavi 了。&lt;/p&gt;
@@ -212,7 +212,7 @@
     <link href="http://chua-n.com/2021/01/15/%E5%B8%B8%E7%94%A8linux%E5%91%BD%E4%BB%A4%E6%9D%82%E8%AE%B0/"/>
     <id>http://chua-n.com/2021/01/15/%E5%B8%B8%E7%94%A8linux%E5%91%BD%E4%BB%A4%E6%9D%82%E8%AE%B0/</id>
     <published>2021-01-15T01:38:25.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;code&gt;tmux&lt;/code&gt;命令、更改 apt 源、&lt;code&gt;cloc&lt;/code&gt;命令、更新 Git 到最新版&lt;/p&gt;</summary>
@@ -229,7 +229,7 @@
     <link href="http://chua-n.com/2021/01/07/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
     <id>http://chua-n.com/2021/01/07/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</id>
     <published>2021-01-07T07:07:51.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.196Z</updated>
     
     
     <summary type="html">&lt;p&gt;采用博客搭建框架 Hexo(v5.3.0)、选用博客主题 Next(v7.8.0)、利用 GitHub 的 Pages 功能作为后端服务、使用 Gitee 的 pages 功能作为博客图床，本文可以免费搭建出一个简洁大方的个人博客。此外，若想更进一步，希望通过个人定制化域名访问博客，可以选择在华为云/阿里云等域名服务商处购买个人域名后，进行简单的映射配置即可。&lt;/p&gt;
@@ -249,7 +249,7 @@
     <link href="http://chua-n.com/2020/12/22/python%E7%BB%98%E5%88%B6%E4%B8%89%E7%BB%B4%E7%90%83/"/>
     <id>http://chua-n.com/2020/12/22/python%E7%BB%98%E5%88%B6%E4%B8%89%E7%BB%B4%E7%90%83/</id>
     <published>2020-12-22T00:11:00.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;“万恶”的 mayavi 库，琢磨了老半天，才弄清楚怎么根据给定的球心坐标和半径批量绘制出三维空间的球。&lt;/p&gt;</summary>
@@ -268,7 +268,7 @@
     <link href="http://chua-n.com/2020/12/08/jupyter%20notebook%E4%B8%AD%E4%BD%BF%E7%94%A8mayavi/"/>
     <id>http://chua-n.com/2020/12/08/jupyter%20notebook%E4%B8%AD%E4%BD%BF%E7%94%A8mayavi/</id>
     <published>2020-12-08T13:09:00.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;就像绘图时可使把 matplotlib 嵌入 jupyter 中一样，mayavi 也可以在 jupyter notebook 中嵌入式使用。&lt;/p&gt;</summary>
@@ -289,7 +289,7 @@
     <link href="http://chua-n.com/2020/12/08/%E9%85%8D%E7%BD%AEjupyter%20notebook%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1/"/>
     <id>http://chua-n.com/2020/12/08/%E9%85%8D%E7%BD%AEjupyter%20notebook%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1/</id>
     <published>2020-12-08T12:49:00.000Z</published>
-    <updated>2024-01-24T13:36:56.682Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;jupyter notebook 不仅可在本地进行连接，而且可以在远程主机上开启 jupyter notebook 服务，然后在本地进行连接以便使用服务器的资源。&lt;/p&gt;</summary>
@@ -310,7 +310,7 @@
     <link href="http://chua-n.com/2020/12/07/mayavi%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/"/>
     <id>http://chua-n.com/2020/12/07/mayavi%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/</id>
     <published>2020-12-07T07:33:00.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;有时我们使用 mayavi 绘制一个 3D 图形，不需要在前台进行图形展示，而只是想随着程序的执行批量保存一些图片，这时候就需要配置好 mayavi 的后台离屏渲染功能了，以便关停烦人的图像弹窗。&lt;/p&gt;</summary>
@@ -329,7 +329,7 @@
     <link href="http://chua-n.com/2020/08/14/WSL%E4%B8%8B%E5%AE%89%E8%A3%85MySQL/"/>
     <id>http://chua-n.com/2020/08/14/WSL%E4%B8%8B%E5%AE%89%E8%A3%85MySQL/</id>
     <published>2020-08-14T08:54:00.000Z</published>
-    <updated>2024-01-24T13:36:56.666Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;近期我在 Win10 中装了 WSL(Windows Subsystem for Linux)，又在学习 mysql，试图在 WSL(Ubuntu)中安装 mysql 进行命令行练习时，发现如下问题并解决。&lt;/p&gt;</summary>
@@ -350,7 +350,7 @@
     <link href="http://chua-n.com/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E5%AE%89%E8%A3%85%E7%89%B9%E5%AE%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda/"/>
     <id>http://chua-n.com/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E5%AE%89%E8%A3%85%E7%89%B9%E5%AE%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda/</id>
     <published>2020-06-29T07:58:00.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;实验室服务器 Ubuntu 16.04 系统下原本安装的 cuda 版本是 9.0，硬件条件是一张 1080 Ti 的 GPU，在使用 PyTorch 的过程中想要把 cuda 版本换成 10.2，尝试了网上各种教程，无奈网络博客的质量实在是鱼目混珠，现在总结一下自己的踩坑记录，尽量详细地照顾到从头至尾的各个细节。&lt;/p&gt;</summary>
@@ -367,7 +367,7 @@
     <link href="http://chua-n.com/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E9%80%82%E9%85%8Dnvidia%E9%A9%B1%E5%8A%A8/"/>
     <id>http://chua-n.com/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E9%80%82%E9%85%8Dnvidia%E9%A9%B1%E5%8A%A8/</id>
     <published>2020-06-29T07:56:00.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;疫情期间回不了学校，只能用 SSH 连接学校的服务器做试验，PyTorch 需要另一个版本的 cuda，只得在命令行下强装对应的 cuda 版本和 nvidia 驱动，于是有了这篇踩坑实录……&lt;/p&gt;</summary>
@@ -384,7 +384,7 @@
     <link href="http://chua-n.com/2020/06/29/linux%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85python/"/>
     <id>http://chua-n.com/2020/06/29/linux%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85python/</id>
     <published>2020-06-29T07:55:00.000Z</published>
-    <updated>2024-01-24T13:36:56.675Z</updated>
+    <updated>2024-01-24T14:40:40.200Z</updated>
     
     
     <summary type="html">&lt;p&gt;实验室服务器使用的系统为 Ubuntu 16.04，自带的 python 版本为 Python 2.7.12 和 Python 3.5.2，命令行下使用&lt;code&gt;$ python&lt;/code&gt;命令来启动 python 时默认是 python2.7。而我想使用 Python 3.8，因此尝试从源码安装 Python，并更改默认的&lt;code&gt;$ python&lt;/code&gt;命令指向。&lt;/p&gt;</summary>
