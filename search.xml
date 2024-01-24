@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Java生成随机的验证码图片</title>
-    <url>/2021/06/27/Java%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81%E5%9B%BE%E7%89%87/</url>
-    <content><![CDATA[<blockquote>
-<p>日常琐碎代码片段记录。</p>
-</blockquote>
-<span id="more"></span>
-<p>主要是第一次接触验证码随机生成的内容，感觉挺新鲜的，想着记录一下，实际内容倒没什么特别的干货。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chuan.servlet.web.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet(&quot;/checkCodeServlet&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CheckCodeServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> <span class="number">50</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">width</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">        <span class="comment">// 1. 创建一在内存中的图像对象</span></span><br><span class="line">        <span class="type">BufferedImage</span> <span class="variable">image</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedImage</span>(width, height, BufferedImage.TYPE_INT_RGB);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 美化图片</span></span><br><span class="line">        <span class="comment">// 2.1. 填充背景色</span></span><br><span class="line">        <span class="type">Graphics</span> <span class="variable">graphics</span> <span class="operator">=</span> image.getGraphics(); <span class="comment">// 画笔对象</span></span><br><span class="line">        graphics.setColor(Color.PINK); <span class="comment">// 设置画笔颜色</span></span><br><span class="line">        graphics.fillRect(<span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">        <span class="comment">// 2.2. 画边框</span></span><br><span class="line">        graphics.setColor(Color.BLUE);</span><br><span class="line">        graphics.drawRect(<span class="number">0</span>, <span class="number">0</span>, width - <span class="number">1</span>, height - <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 2.3. 生成随机字符并写入验证码</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&quot;</span>;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> random.nextInt(str.length());</span><br><span class="line">            <span class="type">char</span> <span class="variable">ch</span> <span class="operator">=</span> str.charAt(index);</span><br><span class="line">            graphics.drawString(ch + <span class="string">&quot;&quot;</span>, (i + <span class="number">1</span>) * width / <span class="number">5</span>, height / <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 2.4. 画干扰线</span></span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 将图片输出到页面中进行展示</span></span><br><span class="line">        ImageIO.write(image, <span class="string">&quot;jpg&quot;</span>, response.getOutputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="built_in">this</span>.doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>coding</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo-Next + GitHub + Gitee 搭建个人博客</title>
-    <url>/2021/01/07/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+    <url>/blog/2021/01/07/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<p>采用博客搭建框架 Hexo(v5.3.0)、选用博客主题 Next(v7.8.0)、利用 GitHub 的 Pages 功能作为后端服务、使用 Gitee 的 pages 功能作为博客图床，本文可以免费搭建出一个简洁大方的个人博客。此外，若想更进一步，希望通过个人定制化域名访问博客，可以选择在华为云/阿里云等域名服务商处购买个人域名后，进行简单的映射配置即可。</p>
 <blockquote>
 <p>注：Hexo 博客采用 markdown 语法进行文章内容书写。</p>
@@ -201,8 +184,55 @@
       </categories>
   </entry>
   <entry>
+    <title>Java生成随机的验证码图片</title>
+    <url>/blog/2021/06/27/Java%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E7%9A%84%E9%AA%8C%E8%AF%81%E7%A0%81%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[<blockquote>
+<p>日常琐碎代码片段记录。</p>
+</blockquote>
+<span id="more"></span>
+<p>主要是第一次接触验证码随机生成的内容，感觉挺新鲜的，想着记录一下，实际内容倒没什么特别的干货。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chuan.servlet.web.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.*;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet(&quot;/checkCodeServlet&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CheckCodeServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> <span class="number">50</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">width</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line">        <span class="comment">// 1. 创建一在内存中的图像对象</span></span><br><span class="line">        <span class="type">BufferedImage</span> <span class="variable">image</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedImage</span>(width, height, BufferedImage.TYPE_INT_RGB);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 美化图片</span></span><br><span class="line">        <span class="comment">// 2.1. 填充背景色</span></span><br><span class="line">        <span class="type">Graphics</span> <span class="variable">graphics</span> <span class="operator">=</span> image.getGraphics(); <span class="comment">// 画笔对象</span></span><br><span class="line">        graphics.setColor(Color.PINK); <span class="comment">// 设置画笔颜色</span></span><br><span class="line">        graphics.fillRect(<span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">        <span class="comment">// 2.2. 画边框</span></span><br><span class="line">        graphics.setColor(Color.BLUE);</span><br><span class="line">        graphics.drawRect(<span class="number">0</span>, <span class="number">0</span>, width - <span class="number">1</span>, height - <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 2.3. 生成随机字符并写入验证码</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&quot;</span>;</span><br><span class="line">        <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> random.nextInt(str.length());</span><br><span class="line">            <span class="type">char</span> <span class="variable">ch</span> <span class="operator">=</span> str.charAt(index);</span><br><span class="line">            graphics.drawString(ch + <span class="string">&quot;&quot;</span>, (i + <span class="number">1</span>) * width / <span class="number">5</span>, height / <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 2.4. 画干扰线</span></span><br><span class="line">        <span class="comment">// ......</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 将图片输出到页面中进行展示</span></span><br><span class="line">        ImageIO.write(image, <span class="string">&quot;jpg&quot;</span>, response.getOutputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line">        <span class="built_in">this</span>.doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>coding</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python快速定位至文本文件的最后一行</title>
+    <url>/blog/2021/03/19/Python%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E8%87%B3%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E8%A1%8C/</url>
+    <content><![CDATA[<p>编程语言在读取文本文件时总是自首行读取，因此文本开头的内容读取速度很快，那么如果文本量较大，如何快速读取文本仅最后一行呢？</p>
+<blockquote>
+<p>说得一本正经，但并不是为此而生(* ￣︿￣)。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="1-需求"><a href="#1-需求" class="headerlink" title="1. 需求"></a>1. 需求</h2><p>办公室另个课题组野外项目多，经常要测各种数据，某天偶然聊到他们竟然有这样一个奇葩的需求：某仪器每次测一次数据，会得到一个含 725 份 txt 文本文件的文件夹，其中每个 txt 文本为 1000 多行、2 列的数据内容；每当仪器测出若干次数据后他们对数据进行一次分析，也就需要同时面对约二十个文件夹的近两万个 txt 文本，而他们的要求是所有的 txt 文本只取最后一行的第 2 个数字整理成 Excel 表然后做处理。</p>
+<ul>
+<li>一个文件夹：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">tree -l</span></span><br><span class="line">.</span><br><span class="line">├── 1.txt</span><br><span class="line">├── 10.txt</span><br><span class="line">├── 100.txt</span><br><span class="line">├── 101.txt</span><br><span class="line">├── ...</span><br><span class="line">├── 96.txt</span><br><span class="line">├── 97.txt</span><br><span class="line">├── 98.txt</span><br><span class="line">└── 99.txt</span><br><span class="line"></span><br><span class="line">0 directories, 725 files</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一个文件：</li>
+</ul>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">         Step Z Displace...</span><br><span class="line">------------- -------------</span><br><span class="line"> 2.650000e+03 -3.941945e-08</span><br><span class="line"> 2.660000e+03 -1.150117e-07</span><br><span class="line"> 2.670000e+03 -1.168365e-07</span><br><span class="line"> 2.680000e+03 -3.220245e-07</span><br><span class="line"> 2.690000e+03 -2.561211e-06</span><br><span class="line">      ...          ...</span><br></pre></td></tr></table></figure>
+<p>他们原本是怎么做这项工作的呢？课题组分派六、七个有闲的人，每人均分一部分工作，通过 windows 记事本打开每个 txt 文本，拖动鼠标至最后一行，然后复制粘贴相应数据到 Excel 表格中，据师兄说这样差不多要干一个通宵。</p>
+<p>我意识到这个“固定模式的简单重复性工作”写一份代码可以完全自动化批量处理呀，于是帮师兄师姐写了份 python 脚本，师兄也把刚刚已经分配给几位师弟的文件全收回来交给我统一处理，脚本在几秒钟就做完了他们的工作。这份代码其实异常简单，寥寥几行，留之无用、弃之可惜，笔者也就权当纪念意义留在这里吧。</p>
+<h2 id="2-代码"><a href="#2-代码" class="headerlink" title="2. 代码"></a>2. 代码</h2><blockquote>
+<p>注：笔者的第一版本其实并非以下代码，原实现为暴力式搜索文本最后一行，此版源自网络，思路与性能更佳，故而也颇值得记录。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_last_line</span>(<span class="params">file</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Find the last line of a file.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">    -----------</span></span><br><span class="line"><span class="string">    file(str): Absolute path of a file.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file_obj:</span><br><span class="line">        offset = -<span class="number">50</span>  <span class="comment"># initial offset</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            file_obj.seek(offset, <span class="number">2</span>)</span><br><span class="line">            lines = file_obj.readlines()</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">len</span>(lines) &gt; <span class="number">1</span>):</span><br><span class="line">                last_line = lines[-<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset *= <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> last_line.decode()</span><br></pre></td></tr></table></figure>
+<h2 id="3-附：完整脚本"><a href="#3-附：完整脚本" class="headerlink" title="3. 附：完整脚本"></a>3. 附：完整脚本</h2><p>以上仅是定位文本最后一行的函数定义，以下将为师兄处理数据的完整工作脚本作为附录。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_last_line</span>(<span class="params">file</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Find the last line of a file.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">    -----------</span></span><br><span class="line"><span class="string">    file(str): Absolute path of a file.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file_obj:</span><br><span class="line">        offset = -<span class="number">50</span>  <span class="comment"># initial offset</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            file_obj.seek(offset, <span class="number">2</span>)</span><br><span class="line">            lines = file_obj.readlines()</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">len</span>(lines) &gt; <span class="number">1</span>):</span><br><span class="line">                last_line = lines[-<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset *= <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> last_line.decode()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">collect</span>(<span class="params">folder</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Collect the last data from a group of data-files in a folder</span></span><br><span class="line"><span class="string">    into a data structure, of pandas.Series, for later convenience.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">    -----------</span></span><br><span class="line"><span class="string">    folder(str): Absolute path of a folder.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    files = os.listdir(folder)</span><br><span class="line">    files.sort(key=<span class="keyword">lambda</span> filename: <span class="built_in">int</span>(filename[:-<span class="number">4</span>]))</span><br><span class="line">    excel = []</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        file = os.path.join(folder, file)</span><br><span class="line">        last_line = find_last_line(file)</span><br><span class="line">        excel.append(last_line.split()[-<span class="number">1</span>])</span><br><span class="line">    excel = pd.Series(excel, index=files)</span><br><span class="line">    <span class="keyword">return</span> excel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    basefolder = <span class="string">&quot;./ych&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> folder <span class="keyword">in</span> os.listdir(basefolder):</span><br><span class="line"></span><br><span class="line">        folder = os.path.join(basefolder, folder)</span><br><span class="line">        folder = os.path.abspath(folder)</span><br><span class="line">        <span class="keyword">if</span> os.path.isfile(folder):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        excel = collect(folder)</span><br><span class="line">        excel_name = os.path.basename(folder) + <span class="string">&#x27;.xlsx&#x27;</span></span><br><span class="line">        <span class="comment"># 写入具体的excel文件</span></span><br><span class="line">        excel.to_excel(os.path.join(basefolder, excel_name), header=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Python多进程</title>
-    <url>/2021/03/12/Python%E5%A4%9A%E8%BF%9B%E7%A8%8B/</url>
+    <url>/blog/2021/03/12/Python%E5%A4%9A%E8%BF%9B%E7%A8%8B/</url>
     <content><![CDATA[<p>接连面临多个耗时性程序，形势已经演变到必须了解 Python 并行计算的地步了。</p>
 <span id="more"></span>
 <h2 id="0-从-Unix-Linux-的fork-说起"><a href="#0-从-Unix-Linux-的fork-说起" class="headerlink" title="0. 从 Unix/Linux 的fork()说起"></a>0. 从 Unix/Linux 的<code>fork()</code>说起</h2><p>在 Unix/Linux 系统中，提供了一个系统级函数<code>fork()</code>，普通的函数调用一次、返回一次，而<code>fork()</code>调用一次、返回两次，因为操作系统把当前进程（父进程）复制了一份（子进程），此时出现两份进程，于是该函数分别在该父、子进程中返回。</p>
@@ -291,38 +321,8 @@
       </categories>
   </entry>
   <entry>
-    <title>Python快速定位至文本文件的最后一行</title>
-    <url>/2021/03/19/Python%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E8%87%B3%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E8%A1%8C/</url>
-    <content><![CDATA[<p>编程语言在读取文本文件时总是自首行读取，因此文本开头的内容读取速度很快，那么如果文本量较大，如何快速读取文本仅最后一行呢？</p>
-<blockquote>
-<p>说得一本正经，但并不是为此而生(* ￣︿￣)。</p>
-</blockquote>
-<span id="more"></span>
-<h2 id="1-需求"><a href="#1-需求" class="headerlink" title="1. 需求"></a>1. 需求</h2><p>办公室另个课题组野外项目多，经常要测各种数据，某天偶然聊到他们竟然有这样一个奇葩的需求：某仪器每次测一次数据，会得到一个含 725 份 txt 文本文件的文件夹，其中每个 txt 文本为 1000 多行、2 列的数据内容；每当仪器测出若干次数据后他们对数据进行一次分析，也就需要同时面对约二十个文件夹的近两万个 txt 文本，而他们的要求是所有的 txt 文本只取最后一行的第 2 个数字整理成 Excel 表然后做处理。</p>
-<ul>
-<li>一个文件夹：</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">tree -l</span></span><br><span class="line">.</span><br><span class="line">├── 1.txt</span><br><span class="line">├── 10.txt</span><br><span class="line">├── 100.txt</span><br><span class="line">├── 101.txt</span><br><span class="line">├── ...</span><br><span class="line">├── 96.txt</span><br><span class="line">├── 97.txt</span><br><span class="line">├── 98.txt</span><br><span class="line">└── 99.txt</span><br><span class="line"></span><br><span class="line">0 directories, 725 files</span><br></pre></td></tr></table></figure>
-<ul>
-<li>一个文件：</li>
-</ul>
-<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">         Step Z Displace...</span><br><span class="line">------------- -------------</span><br><span class="line"> 2.650000e+03 -3.941945e-08</span><br><span class="line"> 2.660000e+03 -1.150117e-07</span><br><span class="line"> 2.670000e+03 -1.168365e-07</span><br><span class="line"> 2.680000e+03 -3.220245e-07</span><br><span class="line"> 2.690000e+03 -2.561211e-06</span><br><span class="line">      ...          ...</span><br></pre></td></tr></table></figure>
-<p>他们原本是怎么做这项工作的呢？课题组分派六、七个有闲的人，每人均分一部分工作，通过 windows 记事本打开每个 txt 文本，拖动鼠标至最后一行，然后复制粘贴相应数据到 Excel 表格中，据师兄说这样差不多要干一个通宵。</p>
-<p>我意识到这个“固定模式的简单重复性工作”写一份代码可以完全自动化批量处理呀，于是帮师兄师姐写了份 python 脚本，师兄也把刚刚已经分配给几位师弟的文件全收回来交给我统一处理，脚本在几秒钟就做完了他们的工作。这份代码其实异常简单，寥寥几行，留之无用、弃之可惜，笔者也就权当纪念意义留在这里吧。</p>
-<h2 id="2-代码"><a href="#2-代码" class="headerlink" title="2. 代码"></a>2. 代码</h2><blockquote>
-<p>注：笔者的第一版本其实并非以下代码，原实现为暴力式搜索文本最后一行，此版源自网络，思路与性能更佳，故而也颇值得记录。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_last_line</span>(<span class="params">file</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Find the last line of a file.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">    -----------</span></span><br><span class="line"><span class="string">    file(str): Absolute path of a file.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file_obj:</span><br><span class="line">        offset = -<span class="number">50</span>  <span class="comment"># initial offset</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            file_obj.seek(offset, <span class="number">2</span>)</span><br><span class="line">            lines = file_obj.readlines()</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">len</span>(lines) &gt; <span class="number">1</span>):</span><br><span class="line">                last_line = lines[-<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset *= <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> last_line.decode()</span><br></pre></td></tr></table></figure>
-<h2 id="3-附：完整脚本"><a href="#3-附：完整脚本" class="headerlink" title="3. 附：完整脚本"></a>3. 附：完整脚本</h2><p>以上仅是定位文本最后一行的函数定义，以下将为师兄处理数据的完整工作脚本作为附录。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_last_line</span>(<span class="params">file</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Find the last line of a file.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">    -----------</span></span><br><span class="line"><span class="string">    file(str): Absolute path of a file.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file_obj:</span><br><span class="line">        offset = -<span class="number">50</span>  <span class="comment"># initial offset</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            file_obj.seek(offset, <span class="number">2</span>)</span><br><span class="line">            lines = file_obj.readlines()</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">len</span>(lines) &gt; <span class="number">1</span>):</span><br><span class="line">                last_line = lines[-<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                offset *= <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> last_line.decode()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">collect</span>(<span class="params">folder</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Collect the last data from a group of data-files in a folder</span></span><br><span class="line"><span class="string">    into a data structure, of pandas.Series, for later convenience.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Parameters:</span></span><br><span class="line"><span class="string">    -----------</span></span><br><span class="line"><span class="string">    folder(str): Absolute path of a folder.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    files = os.listdir(folder)</span><br><span class="line">    files.sort(key=<span class="keyword">lambda</span> filename: <span class="built_in">int</span>(filename[:-<span class="number">4</span>]))</span><br><span class="line">    excel = []</span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        file = os.path.join(folder, file)</span><br><span class="line">        last_line = find_last_line(file)</span><br><span class="line">        excel.append(last_line.split()[-<span class="number">1</span>])</span><br><span class="line">    excel = pd.Series(excel, index=files)</span><br><span class="line">    <span class="keyword">return</span> excel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    basefolder = <span class="string">&quot;./ych&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> folder <span class="keyword">in</span> os.listdir(basefolder):</span><br><span class="line"></span><br><span class="line">        folder = os.path.join(basefolder, folder)</span><br><span class="line">        folder = os.path.abspath(folder)</span><br><span class="line">        <span class="keyword">if</span> os.path.isfile(folder):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        excel = collect(folder)</span><br><span class="line">        excel_name = os.path.basename(folder) + <span class="string">&#x27;.xlsx&#x27;</span></span><br><span class="line">        <span class="comment"># 写入具体的excel文件</span></span><br><span class="line">        excel.to_excel(os.path.join(basefolder, excel_name), header=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Python自动化操作GUI</title>
-    <url>/2022/01/28/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9CGUI/</url>
+    <url>/blog/2022/01/28/Python%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9CGUI/</url>
     <content><![CDATA[<p>Python 实现对 windows 鼠标和键盘的接管，自动化 GUI 操作。</p>
 <span id="more"></span>
 <h2 id="1-PyAutoGUI-简介"><a href="#1-PyAutoGUI-简介" class="headerlink" title="1. PyAutoGUI 简介"></a>1. PyAutoGUI 简介</h2><blockquote>
@@ -422,7 +422,7 @@
   </entry>
   <entry>
     <title>使用SSH把个人电脑配置成 linux 服务器</title>
-    <url>/2020/06/23/SSH%E9%85%8D%E7%BD%AElinux%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <url>/blog/2020/06/23/SSH%E9%85%8D%E7%BD%AElinux%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
     <content><![CDATA[<p>以前不懂计算机网络的时候，总觉得服务器是一个很神奇的东西，等到突然知道了 SSH 可以在命令行下连接并操纵另一台电脑，原来每一台电脑都可以作为 C/S 架构中的服务器，于是拿自己的笔记本电脑捣腾了一番。</p>
 <span id="more"></span>
 <h2 id="1-更新软件源"><a href="#1-更新软件源" class="headerlink" title="1. 更新软件源"></a>1. 更新软件源</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
@@ -445,7 +445,7 @@
   </entry>
   <entry>
     <title>Servlet+MyBatis小小使用</title>
-    <url>/2021/06/27/Servlet-MyBatis%E5%B0%8F%E5%B0%8F%E4%BD%BF%E7%94%A8/</url>
+    <url>/blog/2021/06/27/Servlet-MyBatis%E5%B0%8F%E5%B0%8F%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<p>在学 Servlet 的时候，视频老师用的是 JDBC/Spring JDBCTemplate 作为 DAO 层技术的，但现在主流技术都是 MyBatis 嘛，自己又是个新手，MyBatis 刚学了也没怎么实践过，就想着自己胡戳着把 DAO 层改成 MyBatis 来实现，同时增强 Servlet 和 MyBatis 的基础使用知识。</p>
 <span id="more"></span>
 <blockquote>
@@ -509,7 +509,7 @@
   </entry>
   <entry>
     <title>WSL下安装MySQL</title>
-    <url>/2020/08/14/WSL%E4%B8%8B%E5%AE%89%E8%A3%85MySQL/</url>
+    <url>/blog/2020/08/14/WSL%E4%B8%8B%E5%AE%89%E8%A3%85MySQL/</url>
     <content><![CDATA[<p>近期我在 Win10 中装了 WSL(Windows Subsystem for Linux)，又在学习 mysql，试图在 WSL(Ubuntu)中安装 mysql 进行命令行练习时，发现如下问题并解决。</p>
 <span id="more"></span>
 <h2 id="1-安装-mysql"><a href="#1-安装-mysql" class="headerlink" title="1. 安装 mysql"></a>1. 安装 mysql</h2><ol>
@@ -533,7 +533,7 @@
   </entry>
   <entry>
     <title>jupyter notebook中使用mayavi三维绘图库</title>
-    <url>/2020/12/08/jupyter%20notebook%E4%B8%AD%E4%BD%BF%E7%94%A8mayavi/</url>
+    <url>/blog/2020/12/08/jupyter%20notebook%E4%B8%AD%E4%BD%BF%E7%94%A8mayavi/</url>
     <content><![CDATA[<p>就像绘图时可使把 matplotlib 嵌入 jupyter 中一样，mayavi 也可以在 jupyter notebook 中嵌入式使用。</p>
 <span id="more"></span>
 <blockquote>
@@ -555,7 +555,7 @@
   </entry>
   <entry>
     <title>linux 下从源码安装 Python——小白踩坑记</title>
-    <url>/2020/06/29/linux%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85python/</url>
+    <url>/blog/2020/06/29/linux%E4%BB%8E%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85python/</url>
     <content><![CDATA[<p>实验室服务器使用的系统为 Ubuntu 16.04，自带的 python 版本为 Python 2.7.12 和 Python 3.5.2，命令行下使用<code>$ python</code>命令来启动 python 时默认是 python2.7。而我想使用 Python 3.8，因此尝试从源码安装 Python，并更改默认的<code>$ python</code>命令指向。</p>
 <span id="more"></span>
 <blockquote>
@@ -623,8 +623,37 @@
       </categories>
   </entry>
   <entry>
+    <title>linux 命令行下适配 nvidia 驱动</title>
+    <url>/blog/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E9%80%82%E9%85%8Dnvidia%E9%A9%B1%E5%8A%A8/</url>
+    <content><![CDATA[<p>疫情期间回不了学校，只能用 SSH 连接学校的服务器做试验，PyTorch 需要另一个版本的 cuda，只得在命令行下强装对应的 cuda 版本和 nvidia 驱动，于是有了这篇踩坑实录……</p>
+<span id="more"></span>
+<h2 id="1-下载相应驱动"><a href="#1-下载相应驱动" class="headerlink" title="1. 下载相应驱动"></a>1. 下载相应驱动</h2><p>在官网<a href="https://www.nvidia.cn/Download/index.aspx?lang=cn">这里</a>选择适应你 GPU 的驱动版本，在下载界面可用右键得到下载链接，然后在 linux 命令行下使用 wget 进行下载，如我下载的是 1080 Ti 的驱动版本：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://www.nvidia.cn/content/DriverDownload-March2009/confirmation.php?url=/XFree86/Linux-x86_64/440.82/NVIDIA-Linux-x86_64-440.82.run&amp;lang=cn&amp;<span class="built_in">type</span>=TITAN</span><br></pre></td></tr></table></figure>
+<p>下载完成后是一个名为<code>NVIDIA-Linux-x86_64-440.82.run</code>的文件。此时若使用<code>sudo sh NVIDIA-Linux-x86_64-440.82.run</code>进行安装，会产生如下报错：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">You appear to be running an X server; please exit X before installing.</span><br></pre></td></tr></table></figure>
+<p>这主要是由于通常而言你的电脑上已经有 nvidia 驱动并且在运行了，此时无法进行新驱动的安装，因为会影响依赖你现有驱动的应用的正常运行。比方说你的桌面程序就需要依靠现有的显卡驱动进行显示。</p>
+<p>回到这个报错，百度了解到是有一个叫做 X 的进程服务在依赖着 nvidia 驱动的运行，这个 X 进程似乎就是支撑你的图形桌面的服务。使用<code>ps aux | grep X</code>命令可查看到这个正在运行的服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ps aux | grep X</span><br><span class="line">root      1459  0.0  0.0  15984   928 pts/40   S+   19:12   0:00 grep X</span><br><span class="line">root      1643  0.0  0.1 426836 187692 tty7    Ssl+ 10:43   0:15 /usr/lib/xorg/Xorg -core :0 -seat seat0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch</span><br><span class="line">root      3604  0.0  0.0 387052 71108 tty8     Ssl+ 10:44   0:22 /usr/lib/xorg/Xorg -core :1 -seat seat0 -auth /var/run/lightdm/root/:1 -nolisten tcp vt8 -novtswitch</span><br><span class="line">git       3909  0.0  0.0  43732  4264 ?        Ss   10:44   0:03 dbus-daemon --fork --session --address=unix:abstract=/tmp/dbus-E2NLgH7XO1</span><br></pre></td></tr></table></figure>
+<h2 id="2-关闭-X-服务"><a href="#2-关闭-X-服务" class="headerlink" title="2. 关闭 X 服务"></a>2. 关闭 X 服务</h2><p>为了能够安装新的 nvidia 驱动，我们需要关闭这个 X 服务，我的 Ubuntu 是基于 lightdm 类型的桌面系统，采用如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo /etc/init.d/lightdm stop</span><br><span class="line">sudo /etc/init.d/lightdm status</span><br></pre></td></tr></table></figure>
+<p>对于其他的 linux 版本，如果桌面系统是基于 gdm 类型，应该把命令中的 lightdm 改为 gdm 即可；非这两种桌面系统类型的，百度一下你的 linux 版本关闭 X 服务的相关命令吧。</p>
+<p>关闭了 X 服务后图形桌面可能会关闭，因为我是通过 ssh 连接的服务器进行的操作，所以也没有看到具体的变化，不确定具体会发生什么情况，不过别慌就是了。</p>
+<p>关闭 X 后，可再次用 ps 命令查看相关进程以确认，我这里显示如下，确实没有运行的 X 服务了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ps aux | grep X</span><br><span class="line">root      1656  0.0  0.0  15984  1084 pts/40   S+   19:15   0:00 grep X</span><br></pre></td></tr></table></figure>
+<h2 id="3-卸载旧的驱动"><a href="#3-卸载旧的驱动" class="headerlink" title="3. 卸载旧的驱动"></a>3. 卸载旧的驱动</h2><p>终于可以卸载旧驱动了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get --purge remove nvidia-*</span><br><span class="line"><span class="comment"># 也有的说用下面的命令进行卸载，我个人均有尝试，无碍</span></span><br><span class="line">sudo apt-get --purge remove <span class="string">&quot;*nvidia*&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-安装新驱动"><a href="#4-安装新驱动" class="headerlink" title="4. 安装新驱动"></a>4. 安装新驱动</h2><p>在第 1 步下载的驱动文件目录里运行安装包即可：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo sh NVIDIA-Linux-x86_64-440.82.run</span><br></pre></td></tr></table></figure>
+<p>值得一提的是，中间可能会有一些小的 warning 提示（好像还有一个 error？），但流程走下来最终还是提示 successfully complete，这就中了！使用<code>nvidia-smi</code>已经可以看到你的新驱动版本号（Driver Version）产生了变化：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nvidia-smi</span></span><br><span class="line">Sun Jun 21 19:16:54 2020</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 440.82       Driver Version: 440.82       CUDA Version: 10.2     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  GeForce GTX 108...  Off  | 00000000:02:00.0 Off |                  N/A |</span><br><span class="line">| 27%   35C    P5    24W / 250W |      0MiB / 11170MiB |      2%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line"></span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID   Type   Process name                             Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|  No running processes found                                                 |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>linux 命令行下安装特定版本的 cuda (踩坑记录)</title>
-    <url>/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E5%AE%89%E8%A3%85%E7%89%B9%E5%AE%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda/</url>
+    <url>/blog/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E5%AE%89%E8%A3%85%E7%89%B9%E5%AE%9A%E7%89%88%E6%9C%AC%E7%9A%84cuda/</url>
     <content><![CDATA[<p>实验室服务器 Ubuntu 16.04 系统下原本安装的 cuda 版本是 9.0，硬件条件是一张 1080 Ti 的 GPU，在使用 PyTorch 的过程中想要把 cuda 版本换成 10.2，尝试了网上各种教程，无奈网络博客的质量实在是鱼目混珠，现在总结一下自己的踩坑记录，尽量详细地照顾到从头至尾的各个细节。</p>
 <span id="more"></span>
 <blockquote>
@@ -661,37 +690,8 @@
       </categories>
   </entry>
   <entry>
-    <title>linux 命令行下适配 nvidia 驱动</title>
-    <url>/2020/06/29/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%8B%E9%80%82%E9%85%8Dnvidia%E9%A9%B1%E5%8A%A8/</url>
-    <content><![CDATA[<p>疫情期间回不了学校，只能用 SSH 连接学校的服务器做试验，PyTorch 需要另一个版本的 cuda，只得在命令行下强装对应的 cuda 版本和 nvidia 驱动，于是有了这篇踩坑实录……</p>
-<span id="more"></span>
-<h2 id="1-下载相应驱动"><a href="#1-下载相应驱动" class="headerlink" title="1. 下载相应驱动"></a>1. 下载相应驱动</h2><p>在官网<a href="https://www.nvidia.cn/Download/index.aspx?lang=cn">这里</a>选择适应你 GPU 的驱动版本，在下载界面可用右键得到下载链接，然后在 linux 命令行下使用 wget 进行下载，如我下载的是 1080 Ti 的驱动版本：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://www.nvidia.cn/content/DriverDownload-March2009/confirmation.php?url=/XFree86/Linux-x86_64/440.82/NVIDIA-Linux-x86_64-440.82.run&amp;lang=cn&amp;<span class="built_in">type</span>=TITAN</span><br></pre></td></tr></table></figure>
-<p>下载完成后是一个名为<code>NVIDIA-Linux-x86_64-440.82.run</code>的文件。此时若使用<code>sudo sh NVIDIA-Linux-x86_64-440.82.run</code>进行安装，会产生如下报错：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">You appear to be running an X server; please exit X before installing.</span><br></pre></td></tr></table></figure>
-<p>这主要是由于通常而言你的电脑上已经有 nvidia 驱动并且在运行了，此时无法进行新驱动的安装，因为会影响依赖你现有驱动的应用的正常运行。比方说你的桌面程序就需要依靠现有的显卡驱动进行显示。</p>
-<p>回到这个报错，百度了解到是有一个叫做 X 的进程服务在依赖着 nvidia 驱动的运行，这个 X 进程似乎就是支撑你的图形桌面的服务。使用<code>ps aux | grep X</code>命令可查看到这个正在运行的服务：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ps aux | grep X</span><br><span class="line">root      1459  0.0  0.0  15984   928 pts/40   S+   19:12   0:00 grep X</span><br><span class="line">root      1643  0.0  0.1 426836 187692 tty7    Ssl+ 10:43   0:15 /usr/lib/xorg/Xorg -core :0 -seat seat0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch</span><br><span class="line">root      3604  0.0  0.0 387052 71108 tty8     Ssl+ 10:44   0:22 /usr/lib/xorg/Xorg -core :1 -seat seat0 -auth /var/run/lightdm/root/:1 -nolisten tcp vt8 -novtswitch</span><br><span class="line">git       3909  0.0  0.0  43732  4264 ?        Ss   10:44   0:03 dbus-daemon --fork --session --address=unix:abstract=/tmp/dbus-E2NLgH7XO1</span><br></pre></td></tr></table></figure>
-<h2 id="2-关闭-X-服务"><a href="#2-关闭-X-服务" class="headerlink" title="2. 关闭 X 服务"></a>2. 关闭 X 服务</h2><p>为了能够安装新的 nvidia 驱动，我们需要关闭这个 X 服务，我的 Ubuntu 是基于 lightdm 类型的桌面系统，采用如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo /etc/init.d/lightdm stop</span><br><span class="line">sudo /etc/init.d/lightdm status</span><br></pre></td></tr></table></figure>
-<p>对于其他的 linux 版本，如果桌面系统是基于 gdm 类型，应该把命令中的 lightdm 改为 gdm 即可；非这两种桌面系统类型的，百度一下你的 linux 版本关闭 X 服务的相关命令吧。</p>
-<p>关闭了 X 服务后图形桌面可能会关闭，因为我是通过 ssh 连接的服务器进行的操作，所以也没有看到具体的变化，不确定具体会发生什么情况，不过别慌就是了。</p>
-<p>关闭 X 后，可再次用 ps 命令查看相关进程以确认，我这里显示如下，确实没有运行的 X 服务了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ps aux | grep X</span><br><span class="line">root      1656  0.0  0.0  15984  1084 pts/40   S+   19:15   0:00 grep X</span><br></pre></td></tr></table></figure>
-<h2 id="3-卸载旧的驱动"><a href="#3-卸载旧的驱动" class="headerlink" title="3. 卸载旧的驱动"></a>3. 卸载旧的驱动</h2><p>终于可以卸载旧驱动了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get --purge remove nvidia-*</span><br><span class="line"><span class="comment"># 也有的说用下面的命令进行卸载，我个人均有尝试，无碍</span></span><br><span class="line">sudo apt-get --purge remove <span class="string">&quot;*nvidia*&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="4-安装新驱动"><a href="#4-安装新驱动" class="headerlink" title="4. 安装新驱动"></a>4. 安装新驱动</h2><p>在第 1 步下载的驱动文件目录里运行安装包即可：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo sh NVIDIA-Linux-x86_64-440.82.run</span><br></pre></td></tr></table></figure>
-<p>值得一提的是，中间可能会有一些小的 warning 提示（好像还有一个 error？），但流程走下来最终还是提示 successfully complete，这就中了！使用<code>nvidia-smi</code>已经可以看到你的新驱动版本号（Driver Version）产生了变化：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">nvidia-smi</span></span><br><span class="line">Sun Jun 21 19:16:54 2020</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 440.82       Driver Version: 440.82       CUDA Version: 10.2     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  GeForce GTX 108...  Off  | 00000000:02:00.0 Off |                  N/A |</span><br><span class="line">| 27%   35C    P5    24W / 250W |      0MiB / 11170MiB |      2%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line"></span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID   Type   Process name                             Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|  No running processes found                                                 |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>mayavi离屏渲染</title>
-    <url>/2020/12/07/mayavi%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/</url>
+    <url>/blog/2020/12/07/mayavi%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/</url>
     <content><![CDATA[<p>有时我们使用 mayavi 绘制一个 3D 图形，不需要在前台进行图形展示，而只是想随着程序的执行批量保存一些图片，这时候就需要配置好 mayavi 的后台离屏渲染功能了，以便关停烦人的图像弹窗。</p>
 <span id="more"></span>
 <h2 id="1-mlab-options-offscreen-之坑"><a href="#1-mlab-options-offscreen-之坑" class="headerlink" title="1. mlab.options.offscreen 之坑"></a>1. <code>mlab.options.offscreen</code> 之坑</h2><p>mayavi 虽然提供有一个直接的选项<code>mlab.options.offscreen</code>可以打开/关闭离屏渲染，但在实测中非常难用，linux 下在 python 脚本中设置<code>mlab.options.offscreen = True</code>根本不奏效。</p>
@@ -720,7 +720,7 @@
   </entry>
   <entry>
     <title>使用 python 绘制不同尺寸的球——利用Mayavi库</title>
-    <url>/2020/12/22/python%E7%BB%98%E5%88%B6%E4%B8%89%E7%BB%B4%E7%90%83/</url>
+    <url>/blog/2020/12/22/python%E7%BB%98%E5%88%B6%E4%B8%89%E7%BB%B4%E7%90%83/</url>
     <content><![CDATA[<p>“万恶”的 mayavi 库，琢磨了老半天，才弄清楚怎么根据给定的球心坐标和半径批量绘制出三维空间的球。</p>
 <span id="more"></span>
 <h2 id="1-思路"><a href="#1-思路" class="headerlink" title="1. 思路"></a>1. 思路</h2><p>mayavi 的 mlab 类似 matplotlib 的 pyplot, 其中<code>points3d</code>函数用来绘制一些三维空间的离散点，在实际情况中，一个点必然需要一种“表示方式”，在<code>points3d</code>函数中，提供了<code>&quot;sphere&quot;, &quot;point&quot;, &quot;cylinder&quot;, &quot;cone&quot;, &quot;cube&quot;, &quot;2darrow&quot;, &quot;2dcircle&quot;</code>等很多模式，即用“球、点、圆柱、圆锥、方块、二维箭头、二维圆”等来表示一个点，当选择<code>&quot;point&quot;</code>时，往往可能由于点的可视感太低而显示出来的结果“啥都没有”，所以此函数默认的图例模式为<code>&quot;sphere&quot;</code>。由此引发感想，若可控制每个球的大小，那么不就可以用这些球来表示出自己想画的一些球了嘛。</p>
@@ -749,7 +749,7 @@
   </entry>
   <entry>
     <title>亲爱的乔乔</title>
-    <url>/2015/07/29/%E4%BA%B2%E7%88%B1%E7%9A%84%E4%B9%94%E4%B9%94/</url>
+    <url>/blog/2015/07/29/%E4%BA%B2%E7%88%B1%E7%9A%84%E4%B9%94%E4%B9%94/</url>
     <content><![CDATA[<blockquote>
 <p>小武写给乔乔的话——2015/07/29。</p>
 </blockquote>
@@ -781,8 +781,100 @@
       </tags>
   </entry>
   <entry>
+    <title>代理模式</title>
+    <url>/blog/2021/02/07/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<p>最近学到 Spring 的 AOP，发现以前没搞懂的“JDK 动态代理”终于过来找茬了，所以还是细细地疏理一下吧。</p>
+<span id="more"></span>
+<h2 id="1-代理模式"><a href="#1-代理模式" class="headerlink" title="1. 代理模式"></a>1. 代理模式</h2><p>碰见一个新概念，第一要做的还是要“顾名思义”：模式二字自不必说，所谓“代理”，即当某个目标对象不能被直接使用时，给这个目标对象提供一个“代办人”（代天行道），以便代替目标对象发挥其本来的功能。当然，在这个过程中“代理对象”通常会对“目标对象”进行一些改造升级，而不是单纯的复制。</p>
+<p>另一方面，从行为表现上来说，代理其实也可想像为“接口”和“实现类”的关系：接口就是目标对象，相应的实现类就是接口的代理。在 Java 中不能创建接口的实例，而只能创建实现这个接口的类的实例，所以“接口”这个概念虽然不是为代理模式而生的，但它天然就是代理的模式。类似的，其实也可想像为类继承中“基类”和“子类”的关系。</p>
+<p>对于 Java 来说，代理模式在代码实现上可以分为<strong>静态代理</strong>和<strong>动态代理</strong>。</p>
+<h2 id="2-静态代理"><a href="#2-静态代理" class="headerlink" title="2. 静态代理"></a>2. 静态代理</h2><p>静态代理其实没啥好说的，实际就是通常写代码的方式，将代理对象直接在代码中显示构造出来：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 目标对象/目标类/被代理类</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要编写实现类，即“代理类”</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Turtle</span> <span class="keyword">implements</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am an animal, named turtle.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// proxyAnimal是Turtle类的实例，但在Java中可自动向上转型为Animal接口</span></span><br><span class="line">        <span class="comment">// 故而可以说proxyAnimal为Animal的代理</span></span><br><span class="line">        <span class="type">Animal</span> <span class="variable">proxyAnimal</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Turtle</span>(); <span class="comment">// 显示构造出代理对象proxyAnimal</span></span><br><span class="line">        <span class="comment">// 调用代理对象的info方法</span></span><br><span class="line">        proxyAnimal.info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-动态代理"><a href="#3-动态代理" class="headerlink" title="3. 动态代理"></a>3. 动态代理</h2><h3 id="3-1-JDK-代理"><a href="#3-1-JDK-代理" class="headerlink" title="3.1. JDK 代理"></a>3.1. JDK 代理</h3><p>Java 标准库提供了一种动态代理的机制：可以在运行期动态创建某个<strong>接口</strong>的实例，也即为这个接口创建代理对象。</p>
+<p>具体地，java.lang.reflect 包下提供了一个<code>Proxy</code>类和一个<code>InvocationHandler</code>接口，Java 利用它们生成 JDK <strong>动态代理类</strong>或<strong>动态代理对象</strong>，如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 目标对象/目标类/被代理类</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DynamicProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 需要先定义一个InvocationHandler类型的handler，其处理（改造）目标对象的每个方法</span></span><br><span class="line">        <span class="type">InvocationHandler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InvocationHandler</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;I am an animal, named turtle.&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 直接生成动态代理对象</span></span><br><span class="line">        <span class="type">Animal</span> <span class="variable">proxyAnimal</span> <span class="operator">=</span> (Animal) Proxy.newProxyInstance(</span><br><span class="line">                Animal.class.getClassLoader(), <span class="comment">// 接口实现类（即代理对象所属类）的类加载器</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Animal.class&#125;, <span class="comment">// 代理类要实现的接口（们）</span></span><br><span class="line">                handler); <span class="comment">// 改造目标对象方法的InvocationHandler实例</span></span><br><span class="line">        <span class="comment">// 调用代理对象的info方法</span></span><br><span class="line">        proxyAnimal.info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结而言，创建 JDK 动态代理对象的过程如下：</p>
+<ul>
+<li><p>定义一个<code>InvocationHandler</code>实例，它负责实现接口（即被代理的目标）的方法调用；</p>
+<blockquote>
+<p><code>InvocationHandler</code>本身也是一个接口，需要定义它的实现类，其中需要重写<code>invoke()</code>方法。调用代理对象的所有方法时都会被替换成调用该<code>invoke()</code>方法，其函数签名为：<code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable</code></p>
+</blockquote>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">proxy</td>
+<td style="text-align:center">代表动态代理对象</td>
+</tr>
+<tr>
+<td style="text-align:center">method</td>
+<td style="text-align:center">代表正在执行的方法</td>
+</tr>
+<tr>
+<td style="text-align:center">args</td>
+<td style="text-align:center">代表调用目标方法时传入的实参</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><p>通过<code>Proxy.newProxyInstance()</code>创建 interface 实例；</p>
+<blockquote>
+<p>其函数签名为<code>static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler handler)</code>，它需要 3 个参数：</p>
+</blockquote>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">loader</td>
+<td style="text-align:center">定义这个代理类的类加载器（通常就是接口类的 ClassLoader）</td>
+</tr>
+<tr>
+<td style="text-align:center">interfaces</td>
+<td style="text-align:center">代理类将要实现的接口数组（至少需要传入一个接口进去）</td>
+</tr>
+<tr>
+<td style="text-align:center">h</td>
+<td style="text-align:center">用来处理接口方法调用的 InvocationHandler 实例</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>将<code>Proxy.newProxyInstance()</code>返回的 Object 强制转型为接口。</li>
+</ul>
+<p>除直接创建动态代理对象外，Java 还可先创建动态代理类，而后通过动态代理类再创建动态代理对象，此时调用的是<code>Proxy.getProxyClass()</code>方法，其完整函数签名为<code>static Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt;... interfaces)</code>，形参含义同上。不过，即使采用这种方式生成动态代理类之后，如果程序需要通过该代理类来创建对象，依然需要传入一个<code>InvocationHandler</code>对象。</p>
+<h3 id="3-2-cglib-代理"><a href="#3-2-cglib-代理" class="headerlink" title="3.2. cglib 代理"></a>3.2. cglib 代理</h3><p>cglib 代理不依赖于接口，而是基于基类/子类。暂略……</p>
+<h2 id="4-动态代理的优势应用"><a href="#4-动态代理的优势应用" class="headerlink" title="4. 动态代理的优势应用"></a>4. 动态代理的优势应用</h2><p>仅看上面定义式的描述，实在很难看出动态代理的优势，而实际上动态代理在解耦方面具有重要应用。例如：</p>
+<h3 id="4-1-解耦合"><a href="#4-1-解耦合" class="headerlink" title="4.1. 解耦合"></a>4.1. 解耦合</h3><p>对于如下图 18.4 的软件系统，工程中出现大量重复代码段是相当糟糕的情况，大部分<strong>稍</strong>有经验的开发者都会将其中深色代码段定义成一个方法，然后让另外三段代码段直接调用该方法即可，如下图 18.5。</p>
+<p><img src="https://chua-n.gitee.io/figure-bed/blog/代理模式/1.png" alt="图 18.4"><br><img src="https://chua-n.gitee.io/figure-bed/blog/代理模式/2.png" alt="图 18.5"></p>
+<p>然而，采用这种方式来实现代码复用依然产生一个重要问题：代码段 1、代码段 2、代码段 3 和深色代码段分离开了，但代码段 1、代码段 2、代码段 3 又和一个特定方法耦合了！最理想的效果是：代码段 1、2、3 既可以执行深色代码部分，又无须在程序中以硬编码方式直接调用深色代码的方法，这时就可以通过动态代理来达到这种解耦效果。如下面的代码，一些重要的理念也包含在注释中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由于JDK动态代理只能为接口创建动态代理，所以先提供一个Dog接口</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由于接口不可能提供实现，如果直接使用Proxy为Dog接口创建动态代理对象，</span></span><br><span class="line"><span class="comment">// 那动态代理对象的所有方法的执行效果又将完全一样，故而实际情况通常是：</span></span><br><span class="line"><span class="comment">// 该Dog接口总会提供一个/多个实现类，比如这里的GunDog类</span></span><br><span class="line"><span class="comment">// 此类中定义两个方法来代表上述所谓的代码段1、代码段2，目标是希望这两段代码能够跟某个公共代码松耦合</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GunDog</span> <span class="keyword">implements</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我是一只猎狗&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我奔跑迅速&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义通用方法，即代码段1、2的公共代码段</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DogUtil</span> &#123;</span><br><span class="line">    <span class="comment">// 第一个拦截器方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;--------模拟通用方法1---------&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第二个拦截器方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;--------模拟通用方法2---------&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 程序的关键</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyInvocationHandler</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    <span class="comment">// 需要被代理的目标对象</span></span><br><span class="line">    <span class="keyword">private</span> Object target;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTarget</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行动态代理对象的所有方法时，都会被替换成执行如下的invoke()方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">DogUtil</span> <span class="variable">du</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DogUtil</span>();</span><br><span class="line">        du.method1();</span><br><span class="line">        <span class="comment">// 通过反射以target作为主调来执行method方法</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(target, args); <span class="comment">// 关键</span></span><br><span class="line">        du.method2();</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提供一个代理工厂类，专门为指定的target生成动态代理实例</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyProxyFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">getProxy</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">        <span class="type">MyInvocationHandler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyInvocationHandler</span>();</span><br><span class="line">        handler.setTarget(target);</span><br><span class="line">        <span class="comment">// 创建并返回一个target的动态代码对象，它与target实现了相同的接口</span></span><br><span class="line">        <span class="comment">// 故而动态代理对象可以当作target对象使用，即实现了对target对象的代理</span></span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(</span><br><span class="line">                target.getClass().getClassLoader(),</span><br><span class="line">                target.getClass().getInterfaces(),</span><br><span class="line">                handler</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DynamicProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建一个原始的GunDog对象，作为target</span></span><br><span class="line">        <span class="type">Dog</span> <span class="variable">target</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GunDog</span>();</span><br><span class="line">        <span class="comment">// 以指定的target来创建动态代理对象</span></span><br><span class="line">        <span class="type">Dog</span> <span class="variable">dog</span> <span class="operator">=</span> (Dog) MyProxyFactory.getProxy(target);</span><br><span class="line">        <span class="comment">// info()和run()两个代码段既实现了对method1()、method2()通用方法的插入</span></span><br><span class="line">        <span class="comment">// 同时在这两个代码段的定义代码——GunDog类的两个方法——中，又没有以硬编码方式调用method1()、method2()方法</span></span><br><span class="line">        dog.info();</span><br><span class="line">        dog.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-已有方法的动态增强"><a href="#4-2-已有方法的动态增强" class="headerlink" title="4.2. 已有方法的动态增强"></a>4.2. 已有方法的动态增强</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">TargetInterface</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Target</span> <span class="keyword">implements</span> <span class="title class_">TargetInterface</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;save running...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 增强代码</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Advice</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;前置增强......&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterReturning</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;后置增强......&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Target</span> <span class="variable">target</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Target</span>(); <span class="comment">//目标对象</span></span><br><span class="line">        <span class="type">Advice</span> <span class="variable">advice</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Advice</span>(); <span class="comment">// 增强对象</span></span><br><span class="line">        <span class="type">TargetInterface</span> <span class="variable">proxy</span> <span class="operator">=</span> (TargetInterface) Proxy.newProxyInstance(</span><br><span class="line">                target.getClass().getClassLoader(), <span class="comment">// 目标对象的类加载器</span></span><br><span class="line">                target.getClass().getInterfaces(), <span class="comment">// 目标对象相同的接口字节码对象数组</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvocationHandler</span>() &#123;</span><br><span class="line">                    <span class="comment">// 调用代理对象的任何方法，实质执行的都是invoke方法</span></span><br><span class="line">                    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">                        advice.before();</span><br><span class="line">                        method.invoke(target, args);</span><br><span class="line">                        advice.afterReturning();</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">        );</span><br><span class="line">        proxy.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+  </entry>
+  <entry>
     <title>余数——周期性和分组</title>
-    <url>/2021/06/17/%E4%BD%99%E6%95%B0%E2%80%94%E2%80%94%E5%91%A8%E6%9C%9F%E6%80%A7%E5%92%8C%E5%88%86%E7%BB%84/</url>
+    <url>/blog/2021/06/17/%E4%BD%99%E6%95%B0%E2%80%94%E2%80%94%E5%91%A8%E6%9C%9F%E6%80%A7%E5%92%8C%E5%88%86%E7%BB%84/</url>
     <content><![CDATA[<p>余数，作除法运算时剩下的数。尽管从小学起我们就反复练习加、减、乘、除的计算，但有关余数的计算只在学习除法时略见其影，事实上，无论在数学还是编程中，余数都起着非常重要的作用。因为我们将意识到，“余数就是分组”，而且它的神奇性在于，将较大的数字除一次就能分组。</p>
 <span id="more"></span>
 <h2 id="1-星期数问题"><a href="#1-星期数问题" class="headerlink" title="1. 星期数问题"></a>1. 星期数问题</h2><p>以这样一个常见的问题为例：</p>
@@ -916,7 +1008,7 @@
   </entry>
   <entry>
     <title>决策树之特征选择</title>
-    <url>/2020/06/29/%E5%86%B3%E7%AD%96%E6%A0%91%E4%B9%8B%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/</url>
+    <url>/blog/2020/06/29/%E5%86%B3%E7%AD%96%E6%A0%91%E4%B9%8B%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/</url>
     <content><![CDATA[<p>疏理一下决策树的特征选择的方法，即决策树的节点划分。</p>
 <span id="more"></span>
 <blockquote>
@@ -958,123 +1050,8 @@ Gini\_index(D,a) = \sum_{v=1}^{V} \frac{|D^v|}{|D|}Gini(D^v)
       </categories>
   </entry>
   <entry>
-    <title>代理模式</title>
-    <url>/2021/02/07/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<p>最近学到 Spring 的 AOP，发现以前没搞懂的“JDK 动态代理”终于过来找茬了，所以还是细细地疏理一下吧。</p>
-<span id="more"></span>
-<h2 id="1-代理模式"><a href="#1-代理模式" class="headerlink" title="1. 代理模式"></a>1. 代理模式</h2><p>碰见一个新概念，第一要做的还是要“顾名思义”：模式二字自不必说，所谓“代理”，即当某个目标对象不能被直接使用时，给这个目标对象提供一个“代办人”（代天行道），以便代替目标对象发挥其本来的功能。当然，在这个过程中“代理对象”通常会对“目标对象”进行一些改造升级，而不是单纯的复制。</p>
-<p>另一方面，从行为表现上来说，代理其实也可想像为“接口”和“实现类”的关系：接口就是目标对象，相应的实现类就是接口的代理。在 Java 中不能创建接口的实例，而只能创建实现这个接口的类的实例，所以“接口”这个概念虽然不是为代理模式而生的，但它天然就是代理的模式。类似的，其实也可想像为类继承中“基类”和“子类”的关系。</p>
-<p>对于 Java 来说，代理模式在代码实现上可以分为<strong>静态代理</strong>和<strong>动态代理</strong>。</p>
-<h2 id="2-静态代理"><a href="#2-静态代理" class="headerlink" title="2. 静态代理"></a>2. 静态代理</h2><p>静态代理其实没啥好说的，实际就是通常写代码的方式，将代理对象直接在代码中显示构造出来：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 目标对象/目标类/被代理类</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要编写实现类，即“代理类”</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Turtle</span> <span class="keyword">implements</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;I am an animal, named turtle.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// proxyAnimal是Turtle类的实例，但在Java中可自动向上转型为Animal接口</span></span><br><span class="line">        <span class="comment">// 故而可以说proxyAnimal为Animal的代理</span></span><br><span class="line">        <span class="type">Animal</span> <span class="variable">proxyAnimal</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Turtle</span>(); <span class="comment">// 显示构造出代理对象proxyAnimal</span></span><br><span class="line">        <span class="comment">// 调用代理对象的info方法</span></span><br><span class="line">        proxyAnimal.info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="3-动态代理"><a href="#3-动态代理" class="headerlink" title="3. 动态代理"></a>3. 动态代理</h2><h3 id="3-1-JDK-代理"><a href="#3-1-JDK-代理" class="headerlink" title="3.1. JDK 代理"></a>3.1. JDK 代理</h3><p>Java 标准库提供了一种动态代理的机制：可以在运行期动态创建某个<strong>接口</strong>的实例，也即为这个接口创建代理对象。</p>
-<p>具体地，java.lang.reflect 包下提供了一个<code>Proxy</code>类和一个<code>InvocationHandler</code>接口，Java 利用它们生成 JDK <strong>动态代理类</strong>或<strong>动态代理对象</strong>，如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 目标对象/目标类/被代理类</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DynamicProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 需要先定义一个InvocationHandler类型的handler，其处理（改造）目标对象的每个方法</span></span><br><span class="line">        <span class="type">InvocationHandler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InvocationHandler</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;I am an animal, named turtle.&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 直接生成动态代理对象</span></span><br><span class="line">        <span class="type">Animal</span> <span class="variable">proxyAnimal</span> <span class="operator">=</span> (Animal) Proxy.newProxyInstance(</span><br><span class="line">                Animal.class.getClassLoader(), <span class="comment">// 接口实现类（即代理对象所属类）的类加载器</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Animal.class&#125;, <span class="comment">// 代理类要实现的接口（们）</span></span><br><span class="line">                handler); <span class="comment">// 改造目标对象方法的InvocationHandler实例</span></span><br><span class="line">        <span class="comment">// 调用代理对象的info方法</span></span><br><span class="line">        proxyAnimal.info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>总结而言，创建 JDK 动态代理对象的过程如下：</p>
-<ul>
-<li><p>定义一个<code>InvocationHandler</code>实例，它负责实现接口（即被代理的目标）的方法调用；</p>
-<blockquote>
-<p><code>InvocationHandler</code>本身也是一个接口，需要定义它的实现类，其中需要重写<code>invoke()</code>方法。调用代理对象的所有方法时都会被替换成调用该<code>invoke()</code>方法，其函数签名为：<code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable</code></p>
-</blockquote>
-</li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">参数</th>
-<th style="text-align:center">解释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">proxy</td>
-<td style="text-align:center">代表动态代理对象</td>
-</tr>
-<tr>
-<td style="text-align:center">method</td>
-<td style="text-align:center">代表正在执行的方法</td>
-</tr>
-<tr>
-<td style="text-align:center">args</td>
-<td style="text-align:center">代表调用目标方法时传入的实参</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li><p>通过<code>Proxy.newProxyInstance()</code>创建 interface 实例；</p>
-<blockquote>
-<p>其函数签名为<code>static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler handler)</code>，它需要 3 个参数：</p>
-</blockquote>
-</li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">参数</th>
-<th style="text-align:center">解释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">loader</td>
-<td style="text-align:center">定义这个代理类的类加载器（通常就是接口类的 ClassLoader）</td>
-</tr>
-<tr>
-<td style="text-align:center">interfaces</td>
-<td style="text-align:center">代理类将要实现的接口数组（至少需要传入一个接口进去）</td>
-</tr>
-<tr>
-<td style="text-align:center">h</td>
-<td style="text-align:center">用来处理接口方法调用的 InvocationHandler 实例</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li>将<code>Proxy.newProxyInstance()</code>返回的 Object 强制转型为接口。</li>
-</ul>
-<p>除直接创建动态代理对象外，Java 还可先创建动态代理类，而后通过动态代理类再创建动态代理对象，此时调用的是<code>Proxy.getProxyClass()</code>方法，其完整函数签名为<code>static Class&lt;?&gt; getProxyClass(ClassLoader loader, Class&lt;?&gt;... interfaces)</code>，形参含义同上。不过，即使采用这种方式生成动态代理类之后，如果程序需要通过该代理类来创建对象，依然需要传入一个<code>InvocationHandler</code>对象。</p>
-<h3 id="3-2-cglib-代理"><a href="#3-2-cglib-代理" class="headerlink" title="3.2. cglib 代理"></a>3.2. cglib 代理</h3><p>cglib 代理不依赖于接口，而是基于基类/子类。暂略……</p>
-<h2 id="4-动态代理的优势应用"><a href="#4-动态代理的优势应用" class="headerlink" title="4. 动态代理的优势应用"></a>4. 动态代理的优势应用</h2><p>仅看上面定义式的描述，实在很难看出动态代理的优势，而实际上动态代理在解耦方面具有重要应用。例如：</p>
-<h3 id="4-1-解耦合"><a href="#4-1-解耦合" class="headerlink" title="4.1. 解耦合"></a>4.1. 解耦合</h3><p>对于如下图 18.4 的软件系统，工程中出现大量重复代码段是相当糟糕的情况，大部分<strong>稍</strong>有经验的开发者都会将其中深色代码段定义成一个方法，然后让另外三段代码段直接调用该方法即可，如下图 18.5。</p>
-<p><img src="https://chua-n.gitee.io/figure-bed/blog/代理模式/1.png" alt="图 18.4"><br><img src="https://chua-n.gitee.io/figure-bed/blog/代理模式/2.png" alt="图 18.5"></p>
-<p>然而，采用这种方式来实现代码复用依然产生一个重要问题：代码段 1、代码段 2、代码段 3 和深色代码段分离开了，但代码段 1、代码段 2、代码段 3 又和一个特定方法耦合了！最理想的效果是：代码段 1、2、3 既可以执行深色代码部分，又无须在程序中以硬编码方式直接调用深色代码的方法，这时就可以通过动态代理来达到这种解耦效果。如下面的代码，一些重要的理念也包含在注释中：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由于JDK动态代理只能为接口创建动态代理，所以先提供一个Dog接口</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由于接口不可能提供实现，如果直接使用Proxy为Dog接口创建动态代理对象，</span></span><br><span class="line"><span class="comment">// 那动态代理对象的所有方法的执行效果又将完全一样，故而实际情况通常是：</span></span><br><span class="line"><span class="comment">// 该Dog接口总会提供一个/多个实现类，比如这里的GunDog类</span></span><br><span class="line"><span class="comment">// 此类中定义两个方法来代表上述所谓的代码段1、代码段2，目标是希望这两段代码能够跟某个公共代码松耦合</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GunDog</span> <span class="keyword">implements</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我是一只猎狗&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我奔跑迅速&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义通用方法，即代码段1、2的公共代码段</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DogUtil</span> &#123;</span><br><span class="line">    <span class="comment">// 第一个拦截器方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;--------模拟通用方法1---------&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第二个拦截器方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;--------模拟通用方法2---------&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 程序的关键</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyInvocationHandler</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    <span class="comment">// 需要被代理的目标对象</span></span><br><span class="line">    <span class="keyword">private</span> Object target;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTarget</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行动态代理对象的所有方法时，都会被替换成执行如下的invoke()方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">DogUtil</span> <span class="variable">du</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DogUtil</span>();</span><br><span class="line">        du.method1();</span><br><span class="line">        <span class="comment">// 通过反射以target作为主调来执行method方法</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(target, args); <span class="comment">// 关键</span></span><br><span class="line">        du.method2();</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提供一个代理工厂类，专门为指定的target生成动态代理实例</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyProxyFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">getProxy</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">        <span class="type">MyInvocationHandler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyInvocationHandler</span>();</span><br><span class="line">        handler.setTarget(target);</span><br><span class="line">        <span class="comment">// 创建并返回一个target的动态代码对象，它与target实现了相同的接口</span></span><br><span class="line">        <span class="comment">// 故而动态代理对象可以当作target对象使用，即实现了对target对象的代理</span></span><br><span class="line">        <span class="keyword">return</span> Proxy.newProxyInstance(</span><br><span class="line">                target.getClass().getClassLoader(),</span><br><span class="line">                target.getClass().getInterfaces(),</span><br><span class="line">                handler</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DynamicProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 创建一个原始的GunDog对象，作为target</span></span><br><span class="line">        <span class="type">Dog</span> <span class="variable">target</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GunDog</span>();</span><br><span class="line">        <span class="comment">// 以指定的target来创建动态代理对象</span></span><br><span class="line">        <span class="type">Dog</span> <span class="variable">dog</span> <span class="operator">=</span> (Dog) MyProxyFactory.getProxy(target);</span><br><span class="line">        <span class="comment">// info()和run()两个代码段既实现了对method1()、method2()通用方法的插入</span></span><br><span class="line">        <span class="comment">// 同时在这两个代码段的定义代码——GunDog类的两个方法——中，又没有以硬编码方式调用method1()、method2()方法</span></span><br><span class="line">        dog.info();</span><br><span class="line">        dog.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="4-2-已有方法的动态增强"><a href="#4-2-已有方法的动态增强" class="headerlink" title="4.2. 已有方法的动态增强"></a>4.2. 已有方法的动态增强</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">TargetInterface</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Target</span> <span class="keyword">implements</span> <span class="title class_">TargetInterface</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;save running...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 增强代码</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Advice</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">before</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;前置增强......&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterReturning</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;后置增强......&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProxyTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Target</span> <span class="variable">target</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Target</span>(); <span class="comment">//目标对象</span></span><br><span class="line">        <span class="type">Advice</span> <span class="variable">advice</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Advice</span>(); <span class="comment">// 增强对象</span></span><br><span class="line">        <span class="type">TargetInterface</span> <span class="variable">proxy</span> <span class="operator">=</span> (TargetInterface) Proxy.newProxyInstance(</span><br><span class="line">                target.getClass().getClassLoader(), <span class="comment">// 目标对象的类加载器</span></span><br><span class="line">                target.getClass().getInterfaces(), <span class="comment">// 目标对象相同的接口字节码对象数组</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">InvocationHandler</span>() &#123;</span><br><span class="line">                    <span class="comment">// 调用代理对象的任何方法，实质执行的都是invoke方法</span></span><br><span class="line">                    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">                        advice.before();</span><br><span class="line">                        method.invoke(target, args);</span><br><span class="line">                        advice.afterReturning();</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">        );</span><br><span class="line">        proxy.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>晒被子</title>
-    <url>/2017/03/11/%E6%99%92%E8%A2%AB%E5%AD%90/</url>
-    <content><![CDATA[<p>七点二十的闹钟响了，他起来将晦暗了一夜的宿舍的阳台门打开，外面的些许光亮跳进来，室内阴涩的废气被气流赶出去。看见楼下的晾衣绳上还空空如也，他欢喜地抱起被子、铺的跑过去，庆幸自己比这个世界早了一步醒来。</p>
-<span id="more"></span>
-<p>已然中午的太阳将楼前的空地尽染成金色，几乎不留一片阴影。吃罢午饭的他陡然来了睡意，便走向晒着一排排被子的草坪上去取晒了一上午的被褥。他用手刚一碰着它们，心里便“嗬”地发出一声惊叹——变这么厚了。那是，一整个寒假被丢在背阳的宿舍里，又是南方的潮湿空气，被褥们不知攒了多少阴气皱缩了多少呢，好不容易见着太阳，它们能不享受享受这日光浴嘛。</p>
-<p>从遥远的太空不远万里飞过来的一束束的光暖，像水一般娇柔地在被子里里外外地氤氲开来，而它们依旧贪婪地吮吸着光和热。他用手捏捏被子的这里那里，到处都是鼓囊囊、软乎乎的，棉被的纹理挠得他从手心痒到心坎儿里。阳光也一片一片打在他的脸上，他觉得脸上有点辣乎乎的，虽然不痛却打醒了睡意，他感到他的神经开始躁动起来了。</p>
-<p>“走走去吧，”他想，“让被子们在那儿睡去吧”。</p>
-<p>他沿路走向学校北门，在北门前的圆形花池边上一个老年人推着一辆什么似的在他面前慢悠悠地在太阳底下走着，正午的太阳把他们的影子缩得很短，但相互映衬着却让人觉得十分安详。“应该是个轮椅，推着他老伴儿”，他想。他还是个青年，即使走得慢也比前面的老年人要快一些，何况那人还推了辆车呢，没几步他就能够看清那位老年人前面的状况了。原来是个孩子，那是辆婴儿车！他自娱自乐地笑了笑：反正大家都是来晒太阳的嘛。他用不快不慢的步伐超过了那对爷儿俩，走出北门，继续无所事事地踱步在东湖上一座桥上，他四处张望着来往的行人，除却几个看上去是中老年的妇人或大爷跟他同样悠闲以外，便是行色匆匆手里端着手机的跟他年龄相仿的青年了。</p>
-<p>“我要么就是老了，要么就是太小”，他嘟囔了句。</p>
-<p>下午过半时他在学校小操场看见了两伙打篮球的，三分、上篮、抢断，熟悉的节奏和呼喊吸引他在操场边的闪长岩坐台上坐了下来，用羡慕的表情观看着他们。他想起他还打篮球的日子，上次那样热血沸腾地打球还是在初中时候呢，上了高中后便不打了，戴起了该死的眼镜，一戴便是六年。对，眼镜影响了他太多，想到这他再一次下定决心一定要攒钱，攒够治疗近视的手术费，可以的话一定要把可恶的眼镜给摘掉，然后就能肆无忌惮地运动了。</p>
-<p>傍晚时分他收起了晒得饱饱的被褥，将铺的抻好后他坐在富有弹性的床上，喊道：“哇噻，整厚了一倍呢。”他又抱起两个像大大的棉花糖一样的被子，使劲地搂着，松开，又搂，又松开。他将头整个埋在被抱成团的棉花被里，呼吸着那里阳光的味道，脸蛋被一股一股热气呼哧呼哧地扑腾着，那是太阳暖暖的余温。他幸福地叫道：“好舒服啊，太棒了！”</p>
-<p>“其实，我还是个孩子”，他想。</p>
-<p>晚上从图书馆回来，他看了下第二天的天气预报：晴天。他开心地在手机便签上写下：喜欢晒被子的人一定是热爱生活的人。</p>
-<p>随即他定好了清晨七点的闹钟。</p>
-]]></content>
-      <categories>
-        <category>生活随笔</category>
-      </categories>
-      <tags>
-        <tag>生活</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常用linux命令杂记</title>
-    <url>/2021/01/15/%E5%B8%B8%E7%94%A8linux%E5%91%BD%E4%BB%A4%E6%9D%82%E8%AE%B0/</url>
+    <url>/blog/2021/01/15/%E5%B8%B8%E7%94%A8linux%E5%91%BD%E4%BB%A4%E6%9D%82%E8%AE%B0/</url>
     <content><![CDATA[<p><code>tmux</code>命令、更改 apt 源、<code>cloc</code>命令、更新 Git 到最新版</p>
 <span id="more"></span>
 <h2 id="1-tmux"><a href="#1-tmux" class="headerlink" title="1. tmux"></a>1. tmux</h2><p>当在本地的命令行中使用 SSH 连接到远程服务器进行工作时，如果 SSH 连接突然停止，会导致远程服务器中运行的相关命令停止执行（因为 SSH 创建的进程被关闭），这意味着如果你正在服务器中进行一个长时间执行的操作，比方说训练一个神经网络，当网络意外中断、或你关闭了本地的命令行窗口，将导致该操作的运行终止，而不是继续在服务器中执行。那么如何让“连接中断时，正在执行的指令仍旧保持运行”呢，这就可以用到 tmux 命令了。</p>
@@ -1364,42 +1341,31 @@ Gini\_index(D,a) = \sum_{v=1}^{V} \frac{|D^v|}{|D|}Gini(D^v)
       </categories>
   </entry>
   <entry>
-    <title>在远程服务器中使用mayavi渲染三维图——借助jupyter notebook</title>
-    <url>/2021/02/01/%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%BD%BF%E7%94%A8mayavi%E6%B8%B2%E6%9F%93%E4%B8%89%E7%BB%B4%E5%9B%BE%E2%80%94%E2%80%94%E5%80%9F%E5%8A%A9jupyter-notebook/</url>
-    <content><![CDATA[<p>mayavi 库基于 opengl 绘制三维图，似乎凡是通过 opengl 调用 GPU 进行图像渲染的相关功能在远程连接中都无法使用，SSH 与 linux 的连接如是，win10 的远程桌面连接亦如是，曾经在 2020 年寒假使用服务器工作时深受其害，至 2021 年寒假竟然碰巧发现一些窍门可以正常使用 mayavi 了。</p>
-<blockquote>
-<p>注：本文说的“远程正常使用 mayavi”指其能正常渲染展示 3D 图（使用鼠标可以拖动至各个视角查看），如果只是希望能够保存 mayavi 绘制出的图片为 png 文件，不需要前台的 3D 展示，参考另一篇<a href="https://www.chua-n.com/2020/12/07/mayavi离屏渲染/">博文</a>。</p>
-</blockquote>
+    <title>晒被子</title>
+    <url>/blog/2017/03/11/%E6%99%92%E8%A2%AB%E5%AD%90/</url>
+    <content><![CDATA[<p>七点二十的闹钟响了，他起来将晦暗了一夜的宿舍的阳台门打开，外面的些许光亮跳进来，室内阴涩的废气被气流赶出去。看见楼下的晾衣绳上还空空如也，他欢喜地抱起被子、铺的跑过去，庆幸自己比这个世界早了一步醒来。</p>
 <span id="more"></span>
-<h2 id="1-一般情况下的报错"><a href="#1-一般情况下的报错" class="headerlink" title="1. 一般情况下的报错"></a>1. 一般情况下的报错</h2><p>若不进行任何操作，在 ssh 连接下的服务器命令行中，进入 python 其至都无法导入 mayavi 的 mlab，更别提绘图了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chuan@zwgroup-1080ti:~/soil$ python</span><br><span class="line">Python 3.7.9 (default, Aug 31 2020, 12:42:55)</span><br><span class="line">[GCC 7.3.0] :: Anaconda, Inc. on linux</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; from mayavi import mlab</span><br><span class="line">qt.qpa.xcb: could not connect to display</span><br><span class="line">qt.qpa.plugin: Could not load the Qt platform plugin <span class="string">&quot;xcb&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span> even though it was found.</span><br><span class="line">This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.</span><br><span class="line"></span><br><span class="line">Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, webgl, xcb.</span><br><span class="line"></span><br><span class="line">已放弃 (核心已转储)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注 1：mayavi 的 mlab，会在几乎每一次调用时都创建一个“python 图形化进程”，包括在 import 引入 mlab 的语句中，远程无法调用 openGL 绘图，故而报错。</p>
-<p>注 2：另一种类似的情况是，也许你在本地服务器上运行 python 脚本，但你服务器没有显示器，此时情况同上。mayavi 无法连接 X 服务（和 OpenGL 的关系尚不清楚？），尽管你想不<code>mlab.show()</code>出来你的图形，希望使用<code>mlab.savefig()</code>命令将绘制出的图形保存成.png 格式后，传回个人电脑上再进行查看，但是会出现同样的报错。</p>
-</blockquote>
-<p>也在 mayavi 官方文档<a href="http://docs.enthought.com/mayavi/mayavi/tips.html?highlight=offscreen">这里</a>尝试了很多解决方案，但无甚效果。</p>
-<p>即使使用 jupyter notebook 导入 mlab，也会把其服务搞挂掉：</p>
-<p><img src="https://chua-n.gitee.io/figure-bed/blog/远程连接使用mayavi渲染三维图——借助jupyter-notebook/jupyter挂掉.png" alt="jupyter挂掉"></p>
-<h2 id="2-解决方案-1"><a href="#2-解决方案-1" class="headerlink" title="2. 解决方案 1"></a>2. 解决方案 1</h2><p>巧合的是，离校前我在服务器的主机上就地操作时，开启了一个 tmux 终端服务(见<a href="https://www.chua-n.com/2021/01/15/常用linux命令杂记/">常用 linux 命令杂记</a>)，在这个 tmux 终端中我意外开启了 jupyter-notebook 服务，jupyter 竟然能正常渲染出 mayavi 的三维图了！</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chuan@zwgroup-1080ti:~/soil$ jupyter-notebook</span><br><span class="line">[I 20:09:54.166 NotebookApp] 启动notebooks 在本地路径: /home/chuan/soil</span><br><span class="line">[I 20:09:54.166 NotebookApp] Jupyter Notebook 6.1.5 is running at:</span><br><span class="line">[I 20:09:54.166 NotebookApp] http://[ipAddress]:8888/</span><br></pre></td></tr></table></figure>
-<p><img src="https://chua-n.gitee.io/figure-bed/blog/远程连接使用mayavi渲染三维图——借助jupyter-notebook/jupyter成功使用mayavi.png" alt="jupyter成功使用mayavi"></p>
-<p>但这个 tmux 终端是我在服务器主机上本地开启的，现在我在远程连接中再开一个新的 tmux 终端并开启 jupyter-notebook 服务时，导入 mlab 依然会挂掉 jupyter 服务。因而推测：<strong>在远程连接中调用一些系统命令时，跟在本地调用相同命令时被系统授予的权限是不同的</strong>，尽管我可以在远程连接中新开一个 tmux，但这个 tmux 没有权限连接 X 服务（无法渲染基于 opengl 的 3D 图像），而本地开启的 tmux 则拥有相关权限。</p>
-<p>因此，若希望在远程中仍然可以正常使用 mayavi，在离开服务前先在服务器中开启一个 tmux 终端服务吧，不妨将它命名为“mayavi”，然后等需要的时候在其中开启 jupyter 服务：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tmux new -n mayavi  <span class="comment"># 需在服务器本机上输入这条命令</span></span><br><span class="line">jupyter-notebook  <span class="comment"># 无所谓何时开启Jupyter服务</span></span><br></pre></td></tr></table></figure>
-<p>那么如果我无法去到服务器所在地，无法开启所需的 tmux 终端呢？那就试试<a href="#jump">方案 2</a> 吧。</p>
-<h2 id="3-解决方案-2"><a href="#3-解决方案-2" class="headerlink" title="3. 解决方案 2"></a><span id="jump">3. 解决方案 2</span></h2><p>此方案实际是 mayavi 离屏渲染方法的一体两面，参见<a href="https://www.chua-n.com/2020/12/07/mayavi离屏渲染/">此篇博文</a>创建一个 <code>mayaviOffScreen.mlab</code> 代替你需要的 <code>mayavi.mlab</code> 吧：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;Render the mayavi scene off screen.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">When you don&#x27;t need display the mayavi scene while running python scripts,</span></span><br><span class="line"><span class="string">importing `mlab` from this module is recommended, i.e.,</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">from mayaviOffScreen imoprt mlab</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Notes:</span></span><br><span class="line"><span class="string">-------</span></span><br><span class="line"><span class="string">    1. If you are using mayavi from remote host by SSH, etc, you must</span></span><br><span class="line"><span class="string">        import `mlab` from this module. Or something wrong happens!</span></span><br><span class="line"><span class="string">    2. Under the circumstance above, if you need import some other modules meanwhile</span></span><br><span class="line"><span class="string">        and those modules import `mlab` as well in themselves, make sure the sentence</span></span><br><span class="line"><span class="string">        `from mayaviOffScreen import mlab` appears before `import otherModule`!</span></span><br><span class="line"><span class="string">        So that `mayaviOffScreen.mlab` covers `otherModule.mlab`.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> pyvirtualdisplay <span class="keyword">import</span> Display</span><br><span class="line"></span><br><span class="line">display = Display(visible=<span class="literal">False</span>, size=(<span class="number">1280</span>, <span class="number">1024</span>))</span><br><span class="line">display.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> mayavi <span class="keyword">import</span> mlab</span><br><span class="line">mlab.options.offscreen = <span class="literal">True</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Set mlab.options.offscreen=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(mlab.options.offscreen))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>因为即使把 mayavi 的离屏渲染功能打开，jupyter 仍然会捕捉到 mayavi 的图像，于是，只要把方案 1 中的第一句<code>from mayavi import mlab</code>替换为<code>from mayaviOffScreen import mlab</code>便可以像方案 1 一样在 jupyter 中正常渲染 mayavi 图形。</p>
+<p>已然中午的太阳将楼前的空地尽染成金色，几乎不留一片阴影。吃罢午饭的他陡然来了睡意，便走向晒着一排排被子的草坪上去取晒了一上午的被褥。他用手刚一碰着它们，心里便“嗬”地发出一声惊叹——变这么厚了。那是，一整个寒假被丢在背阳的宿舍里，又是南方的潮湿空气，被褥们不知攒了多少阴气皱缩了多少呢，好不容易见着太阳，它们能不享受享受这日光浴嘛。</p>
+<p>从遥远的太空不远万里飞过来的一束束的光暖，像水一般娇柔地在被子里里外外地氤氲开来，而它们依旧贪婪地吮吸着光和热。他用手捏捏被子的这里那里，到处都是鼓囊囊、软乎乎的，棉被的纹理挠得他从手心痒到心坎儿里。阳光也一片一片打在他的脸上，他觉得脸上有点辣乎乎的，虽然不痛却打醒了睡意，他感到他的神经开始躁动起来了。</p>
+<p>“走走去吧，”他想，“让被子们在那儿睡去吧”。</p>
+<p>他沿路走向学校北门，在北门前的圆形花池边上一个老年人推着一辆什么似的在他面前慢悠悠地在太阳底下走着，正午的太阳把他们的影子缩得很短，但相互映衬着却让人觉得十分安详。“应该是个轮椅，推着他老伴儿”，他想。他还是个青年，即使走得慢也比前面的老年人要快一些，何况那人还推了辆车呢，没几步他就能够看清那位老年人前面的状况了。原来是个孩子，那是辆婴儿车！他自娱自乐地笑了笑：反正大家都是来晒太阳的嘛。他用不快不慢的步伐超过了那对爷儿俩，走出北门，继续无所事事地踱步在东湖上一座桥上，他四处张望着来往的行人，除却几个看上去是中老年的妇人或大爷跟他同样悠闲以外，便是行色匆匆手里端着手机的跟他年龄相仿的青年了。</p>
+<p>“我要么就是老了，要么就是太小”，他嘟囔了句。</p>
+<p>下午过半时他在学校小操场看见了两伙打篮球的，三分、上篮、抢断，熟悉的节奏和呼喊吸引他在操场边的闪长岩坐台上坐了下来，用羡慕的表情观看着他们。他想起他还打篮球的日子，上次那样热血沸腾地打球还是在初中时候呢，上了高中后便不打了，戴起了该死的眼镜，一戴便是六年。对，眼镜影响了他太多，想到这他再一次下定决心一定要攒钱，攒够治疗近视的手术费，可以的话一定要把可恶的眼镜给摘掉，然后就能肆无忌惮地运动了。</p>
+<p>傍晚时分他收起了晒得饱饱的被褥，将铺的抻好后他坐在富有弹性的床上，喊道：“哇噻，整厚了一倍呢。”他又抱起两个像大大的棉花糖一样的被子，使劲地搂着，松开，又搂，又松开。他将头整个埋在被抱成团的棉花被里，呼吸着那里阳光的味道，脸蛋被一股一股热气呼哧呼哧地扑腾着，那是太阳暖暖的余温。他幸福地叫道：“好舒服啊，太棒了！”</p>
+<p>“其实，我还是个孩子”，他想。</p>
+<p>晚上从图书馆回来，他看了下第二天的天气预报：晴天。他开心地在手机便签上写下：喜欢晒被子的人一定是热爱生活的人。</p>
+<p>随即他定好了清晨七点的闹钟。</p>
 ]]></content>
       <categories>
-        <category>python</category>
-        <category>jupyter</category>
-        <category>mayavi</category>
+        <category>生活随笔</category>
       </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
   </entry>
   <entry>
     <title>观演讲：《王德峰-中西方文化差异的渊源》</title>
-    <url>/2022/03/20/%E8%A7%82%E6%BC%94%E8%AE%B2%EF%BC%9A%E3%80%8A%E7%8E%8B%E5%BE%B7%E5%B3%B0-%E4%B8%AD%E8%A5%BF%E6%96%B9%E6%96%87%E5%8C%96%E5%B7%AE%E5%BC%82%E7%9A%84%E6%B8%8A%E6%BA%90%E3%80%8B/</url>
+    <url>/blog/2022/03/20/%E8%A7%82%E6%BC%94%E8%AE%B2%EF%BC%9A%E3%80%8A%E7%8E%8B%E5%BE%B7%E5%B3%B0-%E4%B8%AD%E8%A5%BF%E6%96%B9%E6%96%87%E5%8C%96%E5%B7%AE%E5%BC%82%E7%9A%84%E6%B8%8A%E6%BA%90%E3%80%8B/</url>
     <content><![CDATA[<p><img src="https://chua-n.gitee.io/figure-bed/blog/王德峰/7090828b8b3e48e5c907d5d084a1c8a6020e81f6.jpg" style="zoom:75%;" /></p>
 <p><a href="https://www.bilibili.com/video/BV1XU4y1h7iL?share_source=copy_web">讲座</a>发生于2014年3月27号，复旦大学，时长2.5小时，如同一场电影。</p>
 <span id="more"></span>
@@ -1516,7 +1482,7 @@ Gini\_index(D,a) = \sum_{v=1}^{V} \frac{|D^v|}{|D|}Gini(D^v)
   </entry>
   <entry>
     <title>读书笔记：《历史学是什么》</title>
-    <url>/2021/02/03/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E3%80%8A%E5%8E%86%E5%8F%B2%E5%AD%A6%E6%98%AF%E4%BB%80%E4%B9%88%E3%80%8B/</url>
+    <url>/blog/2021/02/03/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%9A%E3%80%8A%E5%8E%86%E5%8F%B2%E5%AD%A6%E6%98%AF%E4%BB%80%E4%B9%88%E3%80%8B/</url>
     <content><![CDATA[<p>葛剑雄，周筱赟著：《历史学是什么》，北京大学出版社，2015 年 9 月第 1 版。</p>
 <span id="more"></span>
 <blockquote>
@@ -1637,8 +1603,42 @@ Gini\_index(D,a) = \sum_{v=1}^{V} \frac{|D^v|}{|D|}Gini(D^v)
       </tags>
   </entry>
   <entry>
+    <title>在远程服务器中使用mayavi渲染三维图——借助jupyter notebook</title>
+    <url>/blog/2021/02/01/%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E4%BD%BF%E7%94%A8mayavi%E6%B8%B2%E6%9F%93%E4%B8%89%E7%BB%B4%E5%9B%BE%E2%80%94%E2%80%94%E5%80%9F%E5%8A%A9jupyter-notebook/</url>
+    <content><![CDATA[<p>mayavi 库基于 opengl 绘制三维图，似乎凡是通过 opengl 调用 GPU 进行图像渲染的相关功能在远程连接中都无法使用，SSH 与 linux 的连接如是，win10 的远程桌面连接亦如是，曾经在 2020 年寒假使用服务器工作时深受其害，至 2021 年寒假竟然碰巧发现一些窍门可以正常使用 mayavi 了。</p>
+<blockquote>
+<p>注：本文说的“远程正常使用 mayavi”指其能正常渲染展示 3D 图（使用鼠标可以拖动至各个视角查看），如果只是希望能够保存 mayavi 绘制出的图片为 png 文件，不需要前台的 3D 展示，参考另一篇<a href="https://www.chua-n.com/2020/12/07/mayavi离屏渲染/">博文</a>。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="1-一般情况下的报错"><a href="#1-一般情况下的报错" class="headerlink" title="1. 一般情况下的报错"></a>1. 一般情况下的报错</h2><p>若不进行任何操作，在 ssh 连接下的服务器命令行中，进入 python 其至都无法导入 mayavi 的 mlab，更别提绘图了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chuan@zwgroup-1080ti:~/soil$ python</span><br><span class="line">Python 3.7.9 (default, Aug 31 2020, 12:42:55)</span><br><span class="line">[GCC 7.3.0] :: Anaconda, Inc. on linux</span><br><span class="line">Type <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> or <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; from mayavi import mlab</span><br><span class="line">qt.qpa.xcb: could not connect to display</span><br><span class="line">qt.qpa.plugin: Could not load the Qt platform plugin <span class="string">&quot;xcb&quot;</span> <span class="keyword">in</span> <span class="string">&quot;&quot;</span> even though it was found.</span><br><span class="line">This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.</span><br><span class="line"></span><br><span class="line">Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, webgl, xcb.</span><br><span class="line"></span><br><span class="line">已放弃 (核心已转储)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注 1：mayavi 的 mlab，会在几乎每一次调用时都创建一个“python 图形化进程”，包括在 import 引入 mlab 的语句中，远程无法调用 openGL 绘图，故而报错。</p>
+<p>注 2：另一种类似的情况是，也许你在本地服务器上运行 python 脚本，但你服务器没有显示器，此时情况同上。mayavi 无法连接 X 服务（和 OpenGL 的关系尚不清楚？），尽管你想不<code>mlab.show()</code>出来你的图形，希望使用<code>mlab.savefig()</code>命令将绘制出的图形保存成.png 格式后，传回个人电脑上再进行查看，但是会出现同样的报错。</p>
+</blockquote>
+<p>也在 mayavi 官方文档<a href="http://docs.enthought.com/mayavi/mayavi/tips.html?highlight=offscreen">这里</a>尝试了很多解决方案，但无甚效果。</p>
+<p>即使使用 jupyter notebook 导入 mlab，也会把其服务搞挂掉：</p>
+<p><img src="https://chua-n.gitee.io/figure-bed/blog/远程连接使用mayavi渲染三维图——借助jupyter-notebook/jupyter挂掉.png" alt="jupyter挂掉"></p>
+<h2 id="2-解决方案-1"><a href="#2-解决方案-1" class="headerlink" title="2. 解决方案 1"></a>2. 解决方案 1</h2><p>巧合的是，离校前我在服务器的主机上就地操作时，开启了一个 tmux 终端服务(见<a href="https://www.chua-n.com/2021/01/15/常用linux命令杂记/">常用 linux 命令杂记</a>)，在这个 tmux 终端中我意外开启了 jupyter-notebook 服务，jupyter 竟然能正常渲染出 mayavi 的三维图了！</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chuan@zwgroup-1080ti:~/soil$ jupyter-notebook</span><br><span class="line">[I 20:09:54.166 NotebookApp] 启动notebooks 在本地路径: /home/chuan/soil</span><br><span class="line">[I 20:09:54.166 NotebookApp] Jupyter Notebook 6.1.5 is running at:</span><br><span class="line">[I 20:09:54.166 NotebookApp] http://[ipAddress]:8888/</span><br></pre></td></tr></table></figure>
+<p><img src="https://chua-n.gitee.io/figure-bed/blog/远程连接使用mayavi渲染三维图——借助jupyter-notebook/jupyter成功使用mayavi.png" alt="jupyter成功使用mayavi"></p>
+<p>但这个 tmux 终端是我在服务器主机上本地开启的，现在我在远程连接中再开一个新的 tmux 终端并开启 jupyter-notebook 服务时，导入 mlab 依然会挂掉 jupyter 服务。因而推测：<strong>在远程连接中调用一些系统命令时，跟在本地调用相同命令时被系统授予的权限是不同的</strong>，尽管我可以在远程连接中新开一个 tmux，但这个 tmux 没有权限连接 X 服务（无法渲染基于 opengl 的 3D 图像），而本地开启的 tmux 则拥有相关权限。</p>
+<p>因此，若希望在远程中仍然可以正常使用 mayavi，在离开服务前先在服务器中开启一个 tmux 终端服务吧，不妨将它命名为“mayavi”，然后等需要的时候在其中开启 jupyter 服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tmux new -n mayavi  <span class="comment"># 需在服务器本机上输入这条命令</span></span><br><span class="line">jupyter-notebook  <span class="comment"># 无所谓何时开启Jupyter服务</span></span><br></pre></td></tr></table></figure>
+<p>那么如果我无法去到服务器所在地，无法开启所需的 tmux 终端呢？那就试试<a href="#jump">方案 2</a> 吧。</p>
+<h2 id="3-解决方案-2"><a href="#3-解决方案-2" class="headerlink" title="3. 解决方案 2"></a><span id="jump">3. 解决方案 2</span></h2><p>此方案实际是 mayavi 离屏渲染方法的一体两面，参见<a href="https://www.chua-n.com/2020/12/07/mayavi离屏渲染/">此篇博文</a>创建一个 <code>mayaviOffScreen.mlab</code> 代替你需要的 <code>mayavi.mlab</code> 吧：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;Render the mayavi scene off screen.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">When you don&#x27;t need display the mayavi scene while running python scripts,</span></span><br><span class="line"><span class="string">importing `mlab` from this module is recommended, i.e.,</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">from mayaviOffScreen imoprt mlab</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Notes:</span></span><br><span class="line"><span class="string">-------</span></span><br><span class="line"><span class="string">    1. If you are using mayavi from remote host by SSH, etc, you must</span></span><br><span class="line"><span class="string">        import `mlab` from this module. Or something wrong happens!</span></span><br><span class="line"><span class="string">    2. Under the circumstance above, if you need import some other modules meanwhile</span></span><br><span class="line"><span class="string">        and those modules import `mlab` as well in themselves, make sure the sentence</span></span><br><span class="line"><span class="string">        `from mayaviOffScreen import mlab` appears before `import otherModule`!</span></span><br><span class="line"><span class="string">        So that `mayaviOffScreen.mlab` covers `otherModule.mlab`.</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> pyvirtualdisplay <span class="keyword">import</span> Display</span><br><span class="line"></span><br><span class="line">display = Display(visible=<span class="literal">False</span>, size=(<span class="number">1280</span>, <span class="number">1024</span>))</span><br><span class="line">display.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> mayavi <span class="keyword">import</span> mlab</span><br><span class="line">mlab.options.offscreen = <span class="literal">True</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Set mlab.options.offscreen=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(mlab.options.offscreen))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>因为即使把 mayavi 的离屏渲染功能打开，jupyter 仍然会捕捉到 mayavi 的图像，于是，只要把方案 1 中的第一句<code>from mayavi import mlab</code>替换为<code>from mayaviOffScreen import mlab</code>便可以像方案 1 一样在 jupyter 中正常渲染 mayavi 图形。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+        <category>jupyter</category>
+        <category>mayavi</category>
+      </categories>
+  </entry>
+  <entry>
     <title>逆变换采样</title>
-    <url>/2020/05/17/%E9%80%86%E5%8F%98%E6%8D%A2%E9%87%87%E6%A0%B7/</url>
+    <url>/blog/2020/05/17/%E9%80%86%E5%8F%98%E6%8D%A2%E9%87%87%E6%A0%B7/</url>
     <content><![CDATA[<p>一般的编程语言都具有（伪）随机数生成功能，如 python 的<code>random.random()</code>函数，然而它们通常只对应均匀分布。那如果想生成符合任意概率分布的随机数，该如何在代码上实现呢？这就可以用到“逆变换采样”了。</p>
 <span id="more"></span>
 <h2 id="1-引理"><a href="#1-引理" class="headerlink" title="1. 引理"></a>1. 引理</h2><p>假设$X$为一个连续随机变量，其累积分布函数为$CDF(x)=P(X \le x)$，若随机变量$Y=CDF(X)$，则$Y$服从区间$[0, 1]$上的均匀分布。</p>
@@ -1674,7 +1674,7 @@ Gini\_index(D,a) = \sum_{v=1}^{V} \frac{|D^v|}{|D|}Gini(D^v)
   </entry>
   <entry>
     <title>配置jupyter notebook远程连接服务</title>
-    <url>/2020/12/08/%E9%85%8D%E7%BD%AEjupyter%20notebook%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1/</url>
+    <url>/blog/2020/12/08/%E9%85%8D%E7%BD%AEjupyter%20notebook%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<p>jupyter notebook 不仅可在本地进行连接，而且可以在远程主机上开启 jupyter notebook 服务，然后在本地进行连接以便使用服务器的资源。</p>
 <span id="more"></span>
 <h2 id="1-安装-jupyter-notebook"><a href="#1-安装-jupyter-notebook" class="headerlink" title="1. 安装 jupyter notebook"></a>1. 安装 jupyter notebook</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install jupyter</span><br></pre></td></tr></table></figure>
